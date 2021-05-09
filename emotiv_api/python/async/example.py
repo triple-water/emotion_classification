@@ -1,5 +1,5 @@
 import asyncio
-from lib.cortex import Cortex
+from classification.lib import Cortex
 
 
 async def do_stuff(cortex):

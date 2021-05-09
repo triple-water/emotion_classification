@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>video</title>
+    <!--    <script src="{{ url_for('static',filename='../lib/jquery.min.js') }}"></script>-->
+    <!--    <script src="../lib/jquery.min.js"></script>-->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='../css/main.css') }}">
+    <!--    <link rel="stylesheet" type="text/css" href="../css/main.css">-->
+</head>
+<body>
+<div class="video_box">
+    <video id="demo_video" autoplay controls preload="none" width="640" height="264" data-setup="{}">
+        　　
+        <source src="../source/demo.mp4" type='video/mp4'/>
+    </video>
+</div>
+</body>
+<!--<style type="text/css">-->
+<!--    #demo_video::-webkit-media-controls{-->
+<!--        display:none !important;-->
+<!--    }-->
+<!--</style>-->
+<script>
+my_video=document.getElementById("demo_video");
+my_video.addEventListener('ended',function(){
+        window.location.href="/subjective_evaluation";
+    });
+
+
+</script>
+</html>
