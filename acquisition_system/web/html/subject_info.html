@@ -2,23 +2,29 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='../css/main.css') }}">
+    <!--    <link rel="stylesheet" type="text/css" href="../css/main.css">-->
     <title>subject info</title>
 </head>
 <body>
-<form action="http://127.0.0.1:5000/submit_info" method="post">
-    <p>Age:&nbsp&nbsp<input type="text" name="age"/></p>
-    <p>Sex:&nbsp&nbsp
-        <label>Male:&nbsp<input name="sex" type="radio" value="male"/>&nbsp&nbsp</label>
-        <label>Female:&nbsp<input name="sex" type="radio" value="female"/>&nbsp&nbsp</label>
-        <label>Unknown:&nbsp<input name="sex" type="radio" value="unknown"/>&nbsp&nbsp</label>
-    </p>
-    <p>Education:&nbsp&nbsp
-        <label>Bachelor:&nbsp<input name="education" type="radio" value="bachelor"/>&nbsp&nbsp</label>
-        <label>Master:&nbsp<input name="education" type="radio" value="master"/>&nbsp&nbsp</label>
-        <label>Doctor:&nbsp<input name="education" type="radio" value="doctor"/>&nbsp&nbsp</label>
-        <label>Others:&nbsp<input name="education" type="text" value="others"/>&nbsp&nbsp</label>
-    </p>
-    <p><input type="submit" value="submit"/></p>
-</form>
+<div class="out-box">
+    <div class="inner-box">
+        <form action="http://127.0.0.1:5000/submit_info" method="post">
+            <p>Age:&nbsp&nbsp<input type="text" name="age"/></p>
+            <p>Sex:&nbsp&nbsp
+                <label>Male<input name="sex" type="radio" value="male"/>&nbsp&nbsp</label>
+                <label>Female<input name="sex" type="radio" value="female"/>&nbsp&nbsp</label>
+                <label>Unknown<input name="sex" type="radio" value="unknown"/>&nbsp&nbsp</label>
+            </p>
+            <p>Education:&nbsp&nbsp
+                <label>Bachelor<input name="education" type="radio" value="bachelor"/>&nbsp&nbsp</label>
+                <label>Master<input name="education" type="radio" value="master"/>&nbsp&nbsp</label>
+                <label>Doctor<input name="education" type="radio" value="doctor"/>&nbsp&nbsp</label>
+                <label>Others &nbsp<input name="education" type="text"/>&nbsp&nbsp</label>
+            </p>
+            <p><input class="submit" type="submit" value="submit"/></p>
+        </form>
+    </div>
+</div>
 </body>
 </html>
