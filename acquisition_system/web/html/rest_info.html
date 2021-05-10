@@ -6,6 +6,8 @@
 </head>
 <body>
 <p>点击确定实验室开始，中途不可退出，有疑问及时跟主试人员沟通。</p>
-<input type="button" onclick='location.href=("/rest")' value="next"/>
+<form action="http://127.0.0.1:5000/rest" method="post">
+    <input type="submit" value="next"/>
+</form>
 </body>
 </html>
