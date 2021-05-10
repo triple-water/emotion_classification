@@ -1,9 +1,11 @@
 from flask import Flask, request, url_for, redirect, render_template
+from pathlib import Path
 
 app = Flask(__name__, template_folder='../web/html', static_folder="../web", static_url_path="")
 count = 0
-video_list = ["demo1", "demo2"]
-
+base_path = Path("../web/source/video")
+hdf_path_list = base_path.glob("*.mp4")
+video_list = [Path(video_name).stem for video_name in hdf_path_list]
 
 @app.route('/')
 def index():
