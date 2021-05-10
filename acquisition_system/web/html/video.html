@@ -3,16 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>video</title>
-    <!--    <script src="{{ url_for('static',filename='../lib/jquery.min.js') }}"></script>-->
-    <!--    <script src="../lib/jquery.min.js"></script>-->
+    <script src="{{ url_for('static',filename='../lib/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='../lib/jquery.params.js') }}"></script>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='../css/main.css') }}">
-    <!--    <link rel="stylesheet" type="text/css" href="../css/main.css">-->
 </head>
 <body>
 <div class="video_box">
     <video id="demo_video" autoplay controls preload="none" width="640" height="264" data-setup="{}">
-        　　
-        <source src="../source/demo.mp4" type='video/mp4'/>
+        <source id="video_path" src="" type="video/mp4"/>
     </video>
 </div>
 </body>
@@ -21,10 +19,16 @@
 <!--        display:none !important;-->
 <!--    }-->
 <!--</style>-->
+
 <script>
+var video_name= $.query.get("v_name");
+var video_src = "../source/video/"+video_name+".mp4"
+document.getElementById("demo_video").src=video_src ;
+document.getElementById("demo_video").play();
 my_video=document.getElementById("demo_video");
 my_video.addEventListener('ended',function(){
         window.location.href="/subjective_evaluation";
     });
+
 </script>
 </html>

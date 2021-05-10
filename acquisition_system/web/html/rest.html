@@ -4,15 +4,18 @@
     <meta charset="UTF-8">
     <title>rest</title>
     <script src="{{ url_for('static',filename='../lib/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='../lib/jquery.params.js') }}"></script>
 <body>
 <div id="rest">+</div>
 </body>
 <script>
     $(function () {
     setTimeout(function () {
-        window.location.href = "/video";
+        var v_name="{{video_name}}"
+    	window.location.href= "video?v_name="+v_name;
     },3000);
 });
+
 
 </script>
 </html>
