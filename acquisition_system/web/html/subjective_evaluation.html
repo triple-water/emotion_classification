@@ -2,16 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='../css/main.css') }}">
+    <!--    <link rel="stylesheet" type="text/css" href="../css/main.css">-->
     <title>subjective evaluation</title>
 </head>
 <body>
-<form action="http://127.0.0.1:5000/submit_evaluation" method="post">
-    <p>
-        <label>happy:&nbsp<input name="emotion" type="radio" value="happy"/>&nbsp&nbsp</label>
-        <label>none:&nbsp<input name="emotion" type="radio" value="none"/>&nbsp&nbsp</label>
-        <label>sad:&nbsp<input name="emotion" type="radio" value="sad"/>&nbsp&nbsp</label>
-    </p>
-    <p><input type="submit" value="submit"/></p>
-</form>
+<div class="out-box">
+    <div class="inner-box">
+        <form action="http://127.0.0.1:5000/submit_evaluation" method="post">
+            <p>
+                <label>happy<input name="emotion" type="radio" value="happy"/>&nbsp&nbsp</label>
+                <label>none:<input name="emotion" type="radio" value="none"/>&nbsp&nbsp</label>
+                <label>sad<input name="emotion" type="radio" value="sad"/>&nbsp&nbsp</label>
+            </p>
+            <p><input class="submit" type="submit" value="submit"/></p>
+        </form>
+    </div>
+</div>
 </body>
 </html>

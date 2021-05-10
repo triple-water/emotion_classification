@@ -5,11 +5,12 @@
     <title>video</title>
     <script src="{{ url_for('static',filename='../lib/jquery.min.js') }}"></script>
     <script src="{{ url_for('static',filename='../lib/jquery.params.js') }}"></script>
+    <style>body{ background-color: #000; }</style>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='../css/main.css') }}">
 </head>
 <body>
 <div class="video_box">
-    <video id="demo_video" autoplay controls preload="none" width="640" height="264" data-setup="{}">
+    <video id="demo_video" autoplay controls preload="none"  data-setup="{}">
         <source id="video_path" src="" type="video/mp4"/>
     </video>
 </div>

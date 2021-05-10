@@ -2,12 +2,18 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='../css/main.css') }}">
+<!--    <link rel="stylesheet" type="text/css" href="../css/main.css">-->
     <title>rest info</title>
 </head>
 <body>
-<p>点击确定实验室开始，中途不可退出，有疑问及时跟主试人员沟通。</p>
-<form action="http://127.0.0.1:5000/rest" method="post">
-    <input type="submit" value="next"/>
-</form>
+<div class="out-box">
+    <div class="inner-box">
+        <p>点击确定实验室开始，中途不可退出，有疑问及时跟主试人员沟通。</p>
+        <form action="http://127.0.0.1:5000/rest" method="post">
+            <input class="submit" type="submit" value="next"/>
+        </form>
+    </div>
+</div>
 </body>
 </html>
