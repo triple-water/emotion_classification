@@ -4,7 +4,17 @@
     <meta charset="UTF-8">
     <title>welcome</title>
 </head>
+<script>
+        window.onload=function () {
+            window.onkeypress=function(e) {
+                if (e.charCode==32){
+                    window.location.href=("/subject_info")
+                }
+            }
+        }
+    </script>
 <body>
+<img src="./source/demo.png" width="5%" alt="">
 <h2>欢迎参加实验!</h2>
 <p>首先在电脑屏幕上会出现“+”提醒您开始实验。</p>
 <p>
@@ -13,6 +23,11 @@
     为了准确采集相关脑电，在实验过程中请您尽量保持体姿不动，眼睛注视前方的“+”，尽量减少眨眼。
 </p>
 <p>准备好后，现在请您按空格键开始实验。</p>
-<input type="button" onclick='location.href=("/subject_info")' value="next"/>
+<script>
+   function skip()
+   {
+           window.'location.href=("/subject_info")';
+   }
+</script>
 </body>
 </html>
