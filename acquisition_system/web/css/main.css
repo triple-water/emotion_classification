@@ -7,3 +7,20 @@
     width: 100%;
     height: 100%;
 }
+
+#out-box{
+    width:100%;
+    height:100%;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#inner-box{
+    width:50%;
+    margin:10%;
+    padding-left:2%;
+    padding-right:2%;
+    background: #fff;
+    border:2px solid #ccc;
+}
