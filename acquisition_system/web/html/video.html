@@ -10,7 +10,7 @@
 </head>
 <body>
 <div class="video_box">
-    <video id="demo_video" autoplay controls preload="none"  data-setup="{}">
+    <video id="demo_video" autoplay controls preload="none" data-setup="{}">
         <source id="video_path" src="" type="video/mp4"/>
     </video>
 </div>
@@ -24,12 +24,11 @@
 <script>
 var video_name= $.query.get("v_name");
 var video_src = "../source/video/"+video_name+".mp4"
-document.getElementById("demo_video").src=video_src ;
-document.getElementById("demo_video").play();
-my_video=document.getElementById("demo_video");
+var my_video = document.getElementById("demo_video")
+my_video.src=video_src ;
+my_video.play();
 my_video.addEventListener('ended',function(){
         window.location.href="/subjective_evaluation";
     });
-
 </script>
 </html>
