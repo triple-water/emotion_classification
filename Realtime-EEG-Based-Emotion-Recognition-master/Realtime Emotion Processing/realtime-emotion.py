@@ -14,7 +14,7 @@ import csv
 import numpy as np
 import scipy.spatial as ss
 import scipy.stats as sst
-from emokit.emotiv import Emotiv
+from emotiv import Emotiv
 import platform
 import socket
 import gevent
