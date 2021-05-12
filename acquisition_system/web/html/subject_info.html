@@ -10,14 +10,14 @@
 <div class="out-box">
     <div class="inner-box">
         <form action="http://127.0.0.1:5000/submit_info" method="post">
-            <p>Age:&nbsp&nbsp<input type="text" name="age"/></p>
+            <p>Age:&nbsp&nbsp<input type="text" name="age" required="required" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"/></p>
             <p>Sex:&nbsp&nbsp
-                <label>Male<input name="sex" type="radio" value="male"/>&nbsp&nbsp</label>
+                <label>Male<input name="sex" type="radio" value="male" checked/>&nbsp&nbsp</label>
                 <label>Female<input name="sex" type="radio" value="female"/>&nbsp&nbsp</label>
                 <label>Unknown<input name="sex" type="radio" value="unknown"/>&nbsp&nbsp</label>
             </p>
             <p>Education:&nbsp&nbsp
-                <label>Bachelor<input name="education" type="radio" value="bachelor"/>&nbsp&nbsp</label>
+                <label>Bachelor<input name="education" type="radio" value="bachelor" checked/>&nbsp&nbsp</label>
                 <label>Master<input name="education" type="radio" value="master"/>&nbsp&nbsp</label>
                 <label>Doctor<input name="education" type="radio" value="doctor"/>&nbsp&nbsp</label>
                 <label>Others &nbsp<input name="education" type="text"/>&nbsp&nbsp</label>

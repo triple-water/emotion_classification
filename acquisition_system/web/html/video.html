@@ -9,19 +9,25 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='../css/main.css') }}">
 </head>
 <body>
-<div class="video_box">
+<div class="video_box" oncontextmenu="return false;">
     <video id="demo_video" autoplay controls preload="none" data-setup="{}">
         <source id="video_path" src="" type="video/mp4"/>
     </video>
 </div>
 </body>
-<!--<style type="text/css">-->
-<!--    #demo_video::-webkit-media-controls{-->
-<!--        display:none !important;-->
-<!--    }-->
-<!--</style>-->
+<style type="text/css">
+    #demo_video::-webkit-media-controls{
+        display:none !important;
+    }
+</style>
 
 <script>
+document.onmousedown=function(oEvent){
+   if(window.event)
+   oEvent=window.event;
+   if(oEvent.button==2)
+ if(oEvent.button==0)
+}
 var video_name= $.query.get("v_name");
 var video_src = "../source/video/"+video_name+".mp4"
 var my_video = document.getElementById("demo_video")
