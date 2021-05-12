@@ -1,9 +1,19 @@
+from pathlib import Path
 from acquisition_system.emotiv_api.cortex import Cortex
 import time
+
+user = {
+    "license": "30a7df02-37ba-462c-8b75-feedfee8c815",
+    "client_id": "mm6xyIddErBCPW8lZFlAlG5k0f771wTzuvDT37fC",
+    "client_secret": "AmGvdjxk17EgLOwYbmJosCch0JfXevUNDSc3LPne0gKbtKFbO89K5x5nphIQd6JJ5yewvHiXhhSdoHUZd7uceXZeHsdXdoZQlWUsMqEnUltome8bVKScgBRNZEQOpZ6D",
+    "debit": 100
+}
+
 class Marker():
     def __init__(self):
         self.c = Cortex(user, debug_mode=True)
         self.c.do_prepare_steps()
+
 
     def inject_name_marker(self, name: str):
         marker_time = time.time() * 1000
@@ -15,7 +25,7 @@ class Marker():
         }
         self.c.inject_marker_request(marker)
 
-    def inject_end_marker(self, record_export_folder):
+    def inject_end_marker(self,record_export_folder):
         marker_time = time.time() * 1000
         marker = {
             "label": 'end',

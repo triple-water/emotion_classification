@@ -1,6 +1,6 @@
 from flask import Flask, request, url_for, redirect, render_template
 from pathlib import Path
-# from acquisition_system.emotiv_api.cortex import Cortex
+import acquisition_system.emotiv_api.my_marker as my_marker
 import time, os
 import datetime
 import acquisition_system.tools.file_tools as file_tools
@@ -15,90 +15,11 @@ save_path = "../acq_data"
 data_path = ""
 sub_info_file_name = "sub_info.txt"
 subject_info_file_name = "subject_info.txt"
-user = {
-    "license": "30a7df02-37ba-462c-8b75-feedfee8c815",
-    "client_id": "mm6xyIddErBCPW8lZFlAlG5k0f771wTzuvDT37fC",
-    "client_secret": "AmGvdjxk17EgLOwYbmJosCch0JfXevUNDSc3LPne0gKbtKFbO89K5x5nphIQd6JJ5yewvHiXhhSdoHUZd7uceXZeHsdXdoZQlWUsMqEnUltome8bVKScgBRNZEQOpZ6D",
-    "debit": 100
-}
 record_name = 'demo_marker' + str(datetime.datetime.now().strftime("%Y-%m-%d"))
 record_description = 'gm_test'
 export_folder = r'C:\Users\A\Desktop\test'
 
-
-# class Marker():
-#     def __init__(self):
-#         self.c = Cortex(user, debug_mode=True)
-#         self.c.do_prepare_steps()
-#
-#
-#     def inject_name_marker(self, name: str):
-#         marker_time = time.time() * 1000
-#         marker = {
-#             "label": name,
-#             "value": str(0),
-#             "port": "python-app",
-#             "time": marker_time
-#         }
-#         self.c.inject_marker_request(marker)
-#
-#     def inject_end_marker(self,record_export_folder):
-#         marker_time = time.time() * 1000
-#         marker = {
-#             "label": 'end',
-#             "value": str(0),
-#             "port": "python-app",
-#             "time": marker_time
-#         }
-#         self.c.inject_marker_request(marker)
-#         self.c.stop_record()
-#         self.c.disconnect_headset()
-#         record_export_data_types = ['EEG', 'MOTION', 'PM', 'BP']
-#         record_export_format = 'CSV'
-#         record_export_version = 'V2'
-#         self.c.export_record(record_export_folder,
-#                              record_export_data_types,
-#                              record_export_format,
-#                              record_export_version,
-#                              [self.c.record_id])
-#
-#     def inject_video_start(self, video_name):
-#         marker_time = time.time() * 1000
-#         marker = {
-#             "label": video_name + '_start',
-#             "value": video_name,
-#             "port": "python-app",
-#             "time": marker_time
-#         }
-#         self.c.inject_marker_request(marker)
-#
-#     def inject_sub_eval(self, video_name):
-#         marker_time = time.time() * 1000
-#         marker = {
-#             "label": 'sub_eval_' + video_name + '_start',
-#             "value": video_name,
-#             "port": "python-app",
-#             "time": marker_time
-#         }
-#         self.c.inject_marker_request(marker)
-#
-#     def start_record(self, name, description):
-#         self.c.create_record(name, description)
-
-
-class Marker():
-    def inject_sub_eval(self, video_name): pass
-
-    def start_record(self, name, description): pass
-
-    def inject_video_start(self, video_name): pass
-
-    def inject_end_marker(self, record_export_folder): pass
-
-    def inject_name_marker(self, name: str): pass
-
-
-m = Marker()
+m = my_marker.Marker()
 
 
 @app.route('/')
