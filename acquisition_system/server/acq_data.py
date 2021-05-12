@@ -4,15 +4,16 @@ import acquisition_system.emotiv_api.my_marker as my_marker
 import time, os
 import datetime
 import acquisition_system.tools.file_tools as file_tools
+# config
+base_path = Path("../web/source/video")
+save_path = "../acq_data"
 
+# global parameters
 app = Flask(__name__, template_folder='../web/html', static_folder="../web", static_url_path="")
 count = 0
 v_name = ''
-base_path = Path("../web/source/video")
-hdf_path_list = base_path.glob("*.mp4")
-video_list = [Path(video_name).stem for video_name in hdf_path_list]
-save_path = "../acq_data"
-data_path = ""
+data_path = time.strftime("%Y%m%d%H%M%S", time.localtime())
+video_list = [Path(video_name).stem for video_name in base_path.glob("*.mp4")]
 sub_info_file_name = "sub_info.txt"
 subject_info_file_name = "subject_info.txt"
 record_name = 'demo_marker' + str(datetime.datetime.now().strftime("%Y-%m-%d"))
@@ -39,8 +40,6 @@ def subject_info():
               "sex: {}\n" \
               "education: {}\n".format(sub_info_dict["age"], sub_info_dict["sex"],
                                        sub_info_dict["education"])
-    global data_path
-    data_path = time.strftime("%Y%m%d%H%M%S", time.localtime())
     file_tools.write_content_overlap(os.path.join(save_path, data_path), sub_info_file_name, content)
     return redirect(url_for('rest_info'))
 
