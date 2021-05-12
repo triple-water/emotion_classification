@@ -25,23 +25,23 @@ sampling_rate = 128  #In hertz
 number_of_channel = 14
 realtime_eeg_in_second = 5 #Realtime each ... seconds
 number_of_realtime_eeg = sampling_rate*realtime_eeg_in_second
-socket_port = 8080
+socket_port = 6868
 
 channel_names=[
-	"AF3",
-	"F7",
-	"F3",
-	"FC5",
-	"T7",
-	"P7",
-	"O1",
-	"O2",
-	"P8",
-	"T8",
-	"FC6",
-	"F4",
-	"F8",
-	"AF4"
+	'AF3',
+	'F7',
+	'F3',
+	'FC5',
+	'T7',
+	'P7',
+	'O1',
+	'O2',
+	'P8',
+	'T8',
+	'FC6',
+	'F4',
+	'F8',
+	'AF4'
 ]
 
 class RealtimeEmotion(object): 
