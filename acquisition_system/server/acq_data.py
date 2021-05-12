@@ -32,6 +32,9 @@ def rest_info():
 @app.route('/rest', methods=['POST','GET'])
 def rest():
     global count
+    # TODO: marker: start
+    # TODO: first time: post start
+    print("111111111")
     video_name = video_list[count]
     return render_template('rest.html', video_name=video_name)
 
@@ -44,12 +47,14 @@ def video_name():
 
 @app.route('/video')
 def video():
+    # todo: marker: video_name_start
     print(request.args.get("v_name"))
     return render_template('video.html')
 
 
 @app.route('/subjective_evaluation')
 def subjective_evaluation():
+    # todo: marker: sub_eval_video_name_start
     print("subjective_evaluation")
     return render_template('subjective_evaluation.html')
 
@@ -68,6 +73,7 @@ def submit_evaluation():
 
 @app.route('/end')
 def end():
+    # todo: marker: end
     global count
     count = 0
     return render_template('end.html')
