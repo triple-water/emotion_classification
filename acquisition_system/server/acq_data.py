@@ -10,20 +10,19 @@ import acquisition_system.tools.logs.log_tool as log_tool
 # config
 base_path = Path("../web/source/video")
 save_path = "../acq_data"
-
+save_path = os.path.join(save_path, time.strftime("%Y%m%d%H%M%S", time.localtime()))
 # global parameters
 app = Flask(__name__, template_folder='../web/html', static_folder="../web", static_url_path="")
 count = 0
 v_name = ''
-data_path = time.strftime("%Y%m%d%H%M%S", time.localtime())
 video_list = [Path(video_name).stem for video_name in base_path.glob("*.mp4")]
 sub_info_file_name = "sub_info.txt"
 subject_info_file_name = "subject_info.txt"
 record_name = 'test_marker' + str(datetime.datetime.now().strftime("%Y-%m-%d"))
 record_description = 'test'
 logger = log_tool.get_logger(log_file_name="acq_data")
-# m = my_marker.Marker()
-m = ""
+m = my_marker.Marker()
+# m = ""
 
 
 @app.route('/')
@@ -62,7 +61,7 @@ def subject_info():
                   "education: {}\n".format(sub_info_dict["age"], sub_info_dict["sex"],
                                            sub_info_dict["education"])
         logger.info(count)
-        file_tools.write_content_overlap(os.path.join(save_path, data_path), sub_info_file_name, content)
+        file_tools.write_content_overlap(save_path,sub_info_file_name, content)
         return redirect(url_for('rest_info'))
     except exceptions.TemplateNotFound as et:
         logger.error(et.message)
@@ -149,7 +148,7 @@ def submit_evaluation():
         sub_eva_content = "video name: {}\n" \
                           "emotion: {}".format(v_name, sub_eva_info["emotion"])
         logger.info(sub_eva_content)
-        file_tools.write_content_add(os.path.join(save_path, data_path), subject_info_file_name, sub_eva_content)
+        file_tools.write_content_add(save_path,subject_info_file_name, sub_eva_content)
         global count
         if count == len(video_list) - 1:
             return redirect(url_for('end'))
@@ -168,7 +167,7 @@ def submit_evaluation():
 @logs.log_record(logger)
 def end():
     try:
-        m.inject_end_marker(save_path)
+        m.inject_end_marker(os.path.abspath(save_path))
         global count
         count = 0
         return render_template('end.html')
