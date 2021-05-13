@@ -1,0 +1,31 @@
+2021-05-13 17:19:01,768 - INFO       - logs.py - log_decorator_wrapper - Arguments:  - Begin function index
+2021-05-13 17:19:01,768 - ERROR      - acq_data.py - index - info_view1.html
+2021-05-13 17:19:01,768 - ERROR      - logs.py - log_decorator_wrapper - Exception: 
+2021-05-13 17:20:43,592 - INFO       - logs.py - log_decorator_wrapper - Arguments:  - Begin function index
+2021-05-13 17:20:43,593 - ERROR      - acq_data.py - index - info_view1.html
+2021-05-13 17:20:43,593 - ERROR      - logs.py - log_decorator_wrapper - Exception: 
+2021-05-13 17:22:04,911 - INFO       - logs.py - log_decorator_wrapper - Arguments:  - Begin function index
+2021-05-13 17:22:04,911 - ERROR      - acq_data.py - index - info_view1.html
+2021-05-13 17:22:04,912 - ERROR      - logs.py - log_decorator_wrapper - Exception: 
+2021-05-13 17:22:47,176 - INFO       - logs.py - log_decorator_wrapper - Arguments:  - Begin function index
+2021-05-13 17:22:51,987 - ERROR      - acq_data.py - index - info_view1.html
+2021-05-13 17:23:02,580 - ERROR      - logs.py - log_decorator_wrapper - Exception: 
+2021-05-13 17:23:55,448 - INFO       - logs.py - log_decorator_wrapper - Arguments:  - Begin function index
+2021-05-13 17:24:00,000 - ERROR      - acq_data.py - index - info_view1.html
+2021-05-13 17:24:00,001 - ERROR      - logs.py - log_decorator_wrapper - Exception: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2021-05-13 17:42:43,119 - INFO       - logs.py - log_decorator_wrapper - Arguments:  - Begin function index
+2021-05-13 17:42:43,120 - ERROR      - acq_data.py - index - info_view1.html
+2021-05-13 17:42:43,120 - ERROR      - logs.py - log_decorator_wrapper - Exception: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2021-05-13 17:43:04,009 - INFO       - logs.py - log_decorator_wrapper - Arguments:  - Begin function index
+2021-05-13 17:43:04,009 - ERROR      - acq_data.py - index - info_view1.html
+2021-05-13 17:43:04,009 - ERROR      - logs.py - log_decorator_wrapper - Exception: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+2021-05-13 17:43:18,483 - INFO       - logs.py - log_decorator_wrapper - Arguments:  - Begin function index
+2021-05-13 17:43:18,484 - ERROR      - acq_data.py - index - info_view1.html
+2021-05-13 17:43:18,484 - ERROR      - logs.py - log_decorator_wrapper - Exception: 
+2021-05-13 17:46:31,208 - INFO       - logs.py - log_decorator_wrapper - Arguments:  - Begin function index
+2021-05-13 17:46:31,209 - ERROR      - acq_data.py - index - info_view1.html
+2021-05-13 17:46:31,209 - ERROR      - logs.py - log_decorator_wrapper - Exception: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+2021-05-13 17:54:14,695 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function index
+2021-05-13 17:54:14,716 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function index!
+2021-05-13 17:54:26,586 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function info_page
+2021-05-13 17:54:26,590 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function info_page!
