@@ -21,8 +21,22 @@ subject_info_file_name = "subject_info.txt"
 record_name = 'test_marker' + str(datetime.datetime.now().strftime("%Y-%m-%d"))
 record_description = 'test'
 logger = log_tool.get_logger(log_file_name="acq_data")
+
+
 m = my_marker.Marker()
-# m = ""
+# class Marker():
+#     def inject_name_marker(self, name: str): pass
+#
+#     def inject_end_marker(self, record_export_folder): pass
+#
+#     def inject_video_start(self, video_name): pass
+#
+#     def inject_sub_eval(self, video_name): pass
+#
+#     def start_record(self, name, description): pass
+
+
+m = Marker()
 
 
 @app.route('/')
@@ -61,7 +75,7 @@ def subject_info():
                   "education: {}\n".format(sub_info_dict["age"], sub_info_dict["sex"],
                                            sub_info_dict["education"])
         logger.info(count)
-        file_tools.write_content_overlap(save_path,sub_info_file_name, content)
+        file_tools.write_content_overlap(save_path, sub_info_file_name, content)
         return redirect(url_for('rest_info'))
     except exceptions.TemplateNotFound as et:
         logger.error(et.message)
@@ -148,7 +162,7 @@ def submit_evaluation():
         sub_eva_content = "video name: {}\n" \
                           "emotion: {}".format(v_name, sub_eva_info["emotion"])
         logger.info(sub_eva_content)
-        file_tools.write_content_add(save_path,subject_info_file_name, sub_eva_content)
+        file_tools.write_content_add(save_path, subject_info_file_name, sub_eva_content)
         global count
         if count == len(video_list) - 1:
             return redirect(url_for('end'))
