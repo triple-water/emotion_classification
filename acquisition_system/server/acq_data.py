@@ -36,7 +36,7 @@ m = my_marker.Marker()
 #     def start_record(self, name, description): pass
 
 
-m = Marker()
+# m = Marker()
 
 
 @app.route('/')
