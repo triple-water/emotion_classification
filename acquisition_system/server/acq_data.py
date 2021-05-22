@@ -7,6 +7,7 @@ import acquisition_system.emotiv_api.my_marker as my_marker
 import acquisition_system.tools.logs.log_auto as logs
 import acquisition_system.tools.logs.log_tool as log_tool
 import threading
+import malin.midi_generator as midi_generator
 
 # config
 base_path = Path("../web/source/video")
@@ -23,22 +24,23 @@ record_name = 'test_marker' + str(datetime.datetime.now().strftime("%Y-%m-%d"))
 record_description = 'test'
 logger = log_tool.get_logger(log_file_name="acq_data")
 
-m = my_marker.Marker()
+
+# m = my_marker.Marker()
 
 
-# class Marker():
-#     def inject_name_marker(self, name: str): pass
-#
-#     def inject_end_marker(self, record_export_folder): pass
-#
-#     def inject_video_start(self, video_name): pass
-#
-#     def inject_sub_eval(self, video_name): pass
-#
-#     def start_record(self, name, description): pass
+class Marker():
+    def inject_name_marker(self, name: str): pass
+
+    def inject_end_marker(self, record_export_folder): pass
+
+    def inject_video_start(self, video_name): pass
+
+    def inject_sub_eval(self, video_name): pass
+
+    def start_record(self, name, description): pass
 
 
-# m = Marker()
+m = Marker()
 
 
 @app.route('/')
@@ -215,10 +217,25 @@ def visualization():
 
 @app.route('/emotion', methods=['GET'], strict_slashes=False)
 def emotion():
+    # 获取分类信息，传给前端，
+    emotion_class = "aaa"
+    result = None
+    if emotion_class:
+        result = jsonify({"code": 200, "msg": "success", "x": 1, "y": 2})
+    else:
+        result = jsonify({"code": 404, "msg": "fail", "x": None, "y": None})
+    return result
 
-        result = jsonify({"success": 200, "msg": "成功", "x": 1, "y": 2})
-        return result
 
+@app.route('/music', methods=['GET'], strict_slashes=False)
+def music():
+    # 获取分类信息，传给前端，
+    music_state = "aaa"
+    if music_state:
+        result = jsonify({"code": 200, "msg": "success", "music_name": "generated.mid"})
+    else:
+        result = jsonify({"code": 404, "msg": "fail", "music_name": None})
+    return result
 
 
 # @app.errorhandler(404)

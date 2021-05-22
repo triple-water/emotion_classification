@@ -7,8 +7,10 @@
     <script src="{{ url_for('static',filename='../lib/jquery.min.js') }}"></script>
     <script src="{{ url_for('static',filename='../lib/jquery.params.js') }}"></script>
     <script src="{{ url_for('static',filename='../lib/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='../lib/midi.js') }}"></script>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='../lib/bootstrap.min.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='../css/main.css') }}">
+    <!--    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='../css/main.css') }}">-->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='../css/visualization.css') }}">
 </head>
 <body>
 <div class="page-header">
@@ -39,103 +41,7 @@
 <!--    <img src="source/3.png" class="emotion" id="pic_3"/>-->
 <!--    <img src="source/4.png" class="emotion" id="pic_4"/>-->
 <!--</div>-->
-<style type="text/css">
-        body {
-            background-color: #F5F5F5;
-        }
-        #audio_div{
-            width: 360px;
-            height: 75px;
-            position: absolute;
-            top: 220px;
-            left: 100px;
-        }
-        #audio1{
-            width: 325px;
-            /*height: 420px;*/
-            position: absolute;
-            top: 10px;
-            left: 15px;
-        }
-        #video_div{
-            width: 360px;
-            height: 280px;
-            position: absolute;
-            top: 320px;
-            left: 100px;
-        }
-        #video1 {
-            position: absolute;
-            top: 15px;
-            left: 5px;
-            width: 350px;
-            height: 250px;
-            margin: 0;
-        }
-        #theCanvas {
-            position: absolute;
-            top: 0px;
-            right: 100px;
-            z-index: 1;
-        }
 
-        #canvas_bgp {
-            position: absolute;
-            top: 0px;
-            right: 50px;
-        }
-
-        .emotion {
-            position: absolute;
-            width: 150px;
-            height: 160px;
-            top: 430px;
-            right: 240px;
-            display: none;
-            z-index: 20;
-        }
-
-        #btnPlay {
-            border-color: #2ae;
-            background: #2ae;
-            width: 100px
-        }
-        #control_button_div{
-            position: absolute;
-            top: 150px;
-            left: 100px;
-        }
-        #zuobiao{
-            position: absolute;
-            top: 120px;
-            right: 200px;
-            width: 500px;
-            height: 400px;
-        }
-
-        #logo{
-            position: absolute;
-            top: 135px;
-            left: 280px;
-            height: 50px;
-        }
-        #logo, #logo_gif{
-            /*width:30px; */
-            height:60px;
-            /*width: 200px;*/
-        }
-
-
-
-
-
-
-
-
-
-
-
-</style>
 <!-- <canvas id="theCanvas" width="400" height="400"></canvas> -->
 <script type="text/javascript">
     // var i2 = 0;
@@ -144,22 +50,53 @@
     // y2_arr = [280, 130, 150, 280];
     // x2_arr = [120, 70, 80, 130, 180, 220,240];
     // y2_arr = [280, 290, 310, 340, 345, 300, 280];
-    $("#get_emotion").click(function(){
-        start_request()
-        setInterval("start_request()",1000);
-        });
 
-    function start_request(){
-        var data = {type:1};
+    var x = 0;
+    var y = 0;
+    var music_base_path = "../source/audio/"
+
+    $(window).load(function(){
+     setInterval("request_emotion()",1000);
+     setInterval("request_music()",10000);
+    });
+
+    // $("#get_emotion").click(function(){
+    //    start_request()
+    //    setInterval("start_request()",1000);
+    //    });
+
+    function request_music(){
         $.ajax({
             type : "get",
             async : false, //同步请求
+            url : "/music",
+            timeout:1000,
+            success:function(data){
+                if(parseInt(data["code"])==200){
+                    music_path = music_base_path+data["music_name"]
+                    alert(music_path)
+                    }
+                }
+            // error:function() {
+               //alert("失败，请稍后再试！");
+               // }
+        });
+    }
+
+    function request_emotion(){
+        // var data = {type:1};
+        $.ajax({
+            type : "get",
+            async : false,
             url : "/emotion",
              // data : data,
             timeout:1000,
-            success:function(dates){
-              alert(dates["x"]);
-                },
+            success:function(data){
+                if(parseInt(data["code"]) == 200){
+                    x = data["x"]
+                    y = data["y"]
+                    }
+                }
             // error:function() {
                //alert("失败，请稍后再试！");
                // }
@@ -190,8 +127,6 @@
             // $("#pic_2").css('display', 'none');
             // $("#pic_1").css('display', 'none');
         }
-        i2 += 1;
-
     }
 </script>
 </body>

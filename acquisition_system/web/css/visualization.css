@@ -1,0 +1,84 @@
+        body {
+            background-color: #F5F5F5;
+        }
+        #audio_div{
+            width: 360px;
+            height: 75px;
+            position: absolute;
+            top: 220px;
+            left: 100px;
+        }
+        #audio1{
+            width: 325px;
+            /*height: 420px;*/
+            position: absolute;
+            top: 10px;
+            left: 15px;
+        }
+        #video_div{
+            width: 360px;
+            height: 280px;
+            position: absolute;
+            top: 320px;
+            left: 100px;
+        }
+        #video1 {
+            position: absolute;
+            top: 15px;
+            left: 5px;
+            width: 350px;
+            height: 250px;
+            margin: 0;
+        }
+        #theCanvas {
+            position: absolute;
+            top: 0px;
+            right: 100px;
+            z-index: 1;
+        }
+
+        #canvas_bgp {
+            position: absolute;
+            top: 0px;
+            right: 50px;
+        }
+
+        .emotion {
+            position: absolute;
+            width: 150px;
+            height: 160px;
+            top: 430px;
+            right: 240px;
+            display: none;
+            z-index: 20;
+        }
+
+        #btnPlay {
+            border-color: #2ae;
+            background: #2ae;
+            width: 100px
+        }
+        #control_button_div{
+            position: absolute;
+            top: 150px;
+            left: 100px;
+        }
+        #zuobiao{
+            position: absolute;
+            top: 120px;
+            right: 200px;
+            width: 500px;
+            height: 400px;
+        }
+
+        #logo{
+            position: absolute;
+            top: 135px;
+            left: 280px;
+            height: 50px;
+        }
+        #logo, #logo_gif{
+            /*width:30px; */
+            height:60px;
+            /*width: 200px;*/
+        }
