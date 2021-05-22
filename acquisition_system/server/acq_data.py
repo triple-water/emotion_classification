@@ -180,7 +180,6 @@ def submit_evaluation():
 
 
 def record_eeg_data():
-    print("子线程运行了...")
     m.inject_end_marker(os.path.abspath(save_path))
 
 
