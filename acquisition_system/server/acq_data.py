@@ -1,7 +1,7 @@
 import time, os, datetime
 from pathlib import Path
 import jinja2.exceptions as exceptions
-from flask import Flask, request, url_for, redirect, render_template, abort
+from flask import Flask, request, url_for, redirect, render_template, abort, jsonify
 import acquisition_system.tools.file_tools as file_tools
 import acquisition_system.emotiv_api.my_marker as my_marker
 import acquisition_system.tools.logs.log_auto as logs
@@ -193,24 +193,44 @@ def end():
         abort(500)
 
 
-@app.errorhandler(404)
-def error(e):
-    return redirect(url_for('err1'))
+@app.route('/visualization')
+def visualization():
+    try:
+        return render_template('visualization.html')
+    except exceptions.TemplateNotFound as et:
+        logger.error(et.message)
+        abort(404)
+    except Exception as e:
+        logger.error(e)
+        abort(500)
 
 
-@app.errorhandler(500)
-def error(e):
-    return redirect(url_for('err2'))
+@app.route('/emotion', methods=['GET'], strict_slashes=False)
+def emotion():
+
+        result = jsonify({"success": 200, "msg": "成功", "x": 1, "y": 2})
+        return result
 
 
-@app.route('/err1')
-def err1():
-    return '您访问的页面已经去浪迹天涯了'
 
+# @app.errorhandler(404)
+# def error(e):
+#     return redirect(url_for('err1'))
+#
+#
+# @app.errorhandler(500)
+# def error(e):
+#     return redirect(url_for('err2'))
 
-@app.route('/err2')
-def err2():
-    return '服务器异常。。。'
+#
+# @app.route('/err1')
+# def err1():
+#     return '您访问的页面已经去浪迹天涯了'
+#
+#
+# @app.route('/err2')
+# def err2():
+#     return '服务器异常。。。'
 
 
 if __name__ == '__main__':
