@@ -6,6 +6,7 @@ import acquisition_system.tools.file_tools as file_tools
 import acquisition_system.emotiv_api.my_marker as my_marker
 import acquisition_system.tools.logs.log_auto as logs
 import acquisition_system.tools.logs.log_tool as log_tool
+import threading
 
 # config
 base_path = Path("../web/source/video")
@@ -22,8 +23,9 @@ record_name = 'test_marker' + str(datetime.datetime.now().strftime("%Y-%m-%d"))
 record_description = 'test'
 logger = log_tool.get_logger(log_file_name="acq_data")
 
-
 m = my_marker.Marker()
+
+
 # class Marker():
 #     def inject_name_marker(self, name: str): pass
 #
@@ -177,11 +179,18 @@ def submit_evaluation():
         abort(500)
 
 
+def record_eeg_data():
+    print("子线程运行了...")
+    m.inject_end_marker(os.path.abspath(save_path))
+
+
 @app.route('/end')
 @logs.log_record(logger)
 def end():
     try:
-        m.inject_end_marker(os.path.abspath(save_path))
+        t1 = threading.Thread(target=record_eeg_data)  # 通过target指定子线程要执行的任务。可以通过args=元组 来指定test1的参数。=-
+        t1.start()
+
         global count
         count = 0
         return render_template('end.html')

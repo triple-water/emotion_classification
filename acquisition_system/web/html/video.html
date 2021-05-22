@@ -15,19 +15,14 @@
     </video>
 </div>
 </body>
-<!--<style type="text/css">-->
-<!--    #demo_video::-webkit-media-controls{-->
-<!--        display:none !important;-->
-<!--    }-->
-<!--</style>-->
+<style type="text/css">
+    #demo_video::-webkit-media-controls{
+        display:none !important;
+    }
+</style>
 
 <script>
-document.onmousedown=function(o_event){
-   if(window.event)
-   o_event=window.event;
-   if(o_event.button==2){o_event.returnValue = false}
-   if(o_event.button==0){o_event.returnValue = false}
-}
+
 var video_name= $.query.get("v_name");
 var video_src = "../source/video/"+video_name+".mp4"
 var my_video = document.getElementById("demo_video")
