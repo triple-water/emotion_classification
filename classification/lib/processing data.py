@@ -3,6 +3,7 @@ import numpy as np
 import h5py
 from pathlib import Path
 import json
+import math
 os.makedirs('headerRemoved', exist_ok=True)
 # Loop through every file in the current working directory.
 def generate_label(video_start , video_end):
@@ -92,7 +93,7 @@ data_list = []
 label_list = []
 while pos + 256 <= length:
     data_list.append(np.asarray(data_processed[:, pos:pos + 256]))
-    label_list.append(np.asarray(label[pos:pos + 256]))  # 截取片段对应的 label，-1, 0, 1
+    label_list.append(label[pos])  # 截取片段对应的 label，-1, 0, 1
     pos += 256
 data = np.array(data_list)
 label = np.array(label_list)
@@ -100,10 +101,11 @@ index = np.arange(data.shape[0])
 np.random.shuffle(index)
 label = label[index]
 data = data[index]
-test_data = data[int(data.shape[0] * 0.95):]  # 从打乱的数据中取百分之二十作为VAL
-test_label = label[int(data.shape[0] * 0.95):]
-data = data[:,0:int(data.shape[0] * 0.95)]
-label = label[0:int(data.shape[0] * 0.95)]
+split_num = math.floor(data.shape[0] * 0.95)
+test_data = data[split_num:]  # 从打乱的数据中取百分之二十作为VAL
+test_label = label[split_num:]
+data = data[0:split_num]
+label = label[0:split_num]
 save_path = Path(os.getcwd())
 filename_data = save_path / Path('data_split.hdf')
 save_data = h5py.File(filename_data, 'w')

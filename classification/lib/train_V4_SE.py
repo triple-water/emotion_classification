@@ -202,35 +202,6 @@ class TrainModel():
         self.test_data = np.array(dataset['test_data'])
         self.test_label = np.array(dataset['test_label'])
 
-        def liduowa(n):
-            li = [1, 1, 1]
-            while li[-1] < n:
-                li.append(li[-2] + li[-3])
-            return li[2:]
-
-        sampling = liduowa(50)
-
-        def sampling_jia(sampling, n):
-            for i in sampling:
-                i = i + n
-                sampling.append(i)
-                if sampling[-1] > 300:
-                    return sampling
-
-        sampling2 = sampling_jia(sampling, 50)
-
-        def deleteDuplicatedElementFromList(list):
-            list.sort()
-            length = len(list)
-            lastItem = list[length - 1]
-            for i in range(length - 2, -1, -1):
-                currentItem = list[i]
-                if currentItem == lastItem:
-                    list.remove(currentItem)
-                else:
-                    lastItem = currentItem
-            return list
-
         #
         # sampling = deleteDuplicatedElementFromList(sampling2[:-1])
         # self.data = np.concatenate([self.data,self.data], axis=-1)
@@ -773,10 +744,11 @@ class TrainModel():
         # load the data
 
         # Dataloader for training process
-        train_data_loader = DataLoader(self.train_data_normal, batch_size=self.batch_size, shuffle=True,
+        # TODO: shuffle 改为TRUE
+        train_data_loader = DataLoader(self.train_data_normal, batch_size=self.batch_size, shuffle=False,
                                        drop_last=True)
-        val_data_loader = DataLoader(self.val_data_normal, batch_size=self.batch_size, shuffle=True, drop_last=True)
-        test_data_loader = DataLoader(self.test_data_normal, batch_size=self.batch_size, shuffle=True,
+        val_data_loader = DataLoader(self.val_data_normal, batch_size=self.batch_size, shuffle=False, drop_last=True)
+        test_data_loader = DataLoader(self.test_data_normal, batch_size=self.batch_size, shuffle=False,
                                       drop_last=True)
 
         total_step = len(train_data_loader)
