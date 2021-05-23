@@ -844,6 +844,7 @@ class TrainModel():
                 print('----Model saved!----')
                 torch.save(model, 'max_model_2.pt')
             else:
+                # torch.save(model, 'max_model_2.pt')
                 patient += 1
             if patient > self.patient:
                 print('----Early stopping----')
