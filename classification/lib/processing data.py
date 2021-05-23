@@ -102,7 +102,6 @@ label = label[index]
 data = data[index]
 test_data = data[int(data.shape[0] * 0.95):]  # 从打乱的数据中取百分之二十作为VAL
 test_label = label[int(data.shape[0] * 0.95):]
-
 data = data[:,0:int(data.shape[0] * 0.95)]
 label = label[0:int(data.shape[0] * 0.95)]
 save_path = Path(os.getcwd())
