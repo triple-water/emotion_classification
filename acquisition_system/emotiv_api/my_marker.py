@@ -59,7 +59,7 @@ class Marker():
         marker_time = time.time() * 1000
         marker = {
             "label": 'sub_eval_' + video_name + '_start',
-            "value": video_name,
+            "value": 0,
             "port": "python-app",
             "time": marker_time
         }
