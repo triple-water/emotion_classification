@@ -770,9 +770,9 @@ class Tsception_LSTM(nn.Module):
 class inception_se_Final(nn.Module):
     def __init__(self,num_classes,batch_size,inputsize,hiden,dropout_rate,hiden2):
         super(inception_se_Final, self).__init__()
-        self.inception_window = [0.3, 0.25, 0.125, 0.0625, 0.03125]
+        self.inception_window = [0.5, 0.25, 0.125, 0.0625, 0.03125]
         # self.inception_window = [0.25, 0.125, 0.0625]
-        self.sampling_rate = 200
+        self.sampling_rate = 256
         self.num_T = 6
         self.channel = 62
         self.se = 2
@@ -822,10 +822,10 @@ class inception_se_Final(nn.Module):
 
         self.BN_t = nn.BatchNorm2d(self.num_T)
 
-        self.lstm1 = nn.LSTM(input_size=248,num_layers=2, hidden_size=hiden,dropout=dropout_rate,bidirectional=True,batch_first=True)
+        self.lstm1 = nn.LSTM(input_size=60,num_layers=2, hidden_size=hiden,dropout=dropout_rate,bidirectional=True,batch_first=True)
 
         # self.lstm2 = nn.LSTM(input_size=hiden,num_layers=2,hidden_size=hiden2,dropout=dropout_rate,bidirectional=False)
-        self.fc1 = nn.Linear(23808,2048)
+        self.fc1 = nn.Linear(25984,2048)
         self.fc2 = nn.Linear(2048,128)
         self.fc3 = nn.Linear(128,num_classes)
     def forward(self,x):
@@ -866,7 +866,7 @@ class inception_se_Final(nn.Module):
 
 
 
-        x = x.view(self.batch_size,186,-1) # x : 24 x 1 x 31 x 100  batch_size x num_t x channels x data
+        x = x.view(self.batch_size,203,-1) # x : 24 x 1 x 31 x 100  batch_size x num_t x channels x data
         # x = torch.squeeze(out)
         x,(hn,cn) = self.lstm1(x)
         # x,(hn,cn) = self.lstm2(x)

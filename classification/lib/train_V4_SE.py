@@ -177,7 +177,7 @@ class TrainModel():
         self.learning_rate = 1e-3
         self.num_epochs = 200
         self.num_class = 3
-        self.batch_size = 128
+        self.batch_size = 1
         self.patient = 50  # early stopping patient
 
         # Parameters: Model
@@ -400,7 +400,7 @@ class TrainModel():
         err = Lambda * torch.sqrt_(torch.sum(w ** 2))
         return err
 
-    def make_train_step(self, model, loss_fn, pairwise_loss, optimizer,optimizer2, scheduler, triplet_loss):
+    def make_train_step(self, model, loss_fn, pairwise_loss, optimizer, scheduler):
         def train_step(x, y):
             model.train()
             yhat_pair, yhat = model(x)
@@ -721,7 +721,6 @@ class TrainModel():
         # model = inception_se_Final_v2(self.num_class, num_t=num_t, se=se, dropout_rate=self.dropout,hiden=self.hiden_node,
         #                      batch_size=self.batch_size).to(self.device)
         optimizer = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=weight_decay)
-        optimizer2 = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=weight_decay)
         scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=60, eta_min=0)
         # 等间隔调整学习率 StepLR   参数：
         # •optimizer: 神经网络训练中使用的优化器，如optimizer=torch.optim.SGD(...)
@@ -730,16 +729,12 @@ class TrainModel():
         #
         # •last_epoch(int): 上一个epoch数，这个变量用来指示学习率是否需要调整。当last_epoch符合设定的间隔时，就会对学习率进行调整；当为-1时，学习率设置为初始值。
         loss_fn = nn.CrossEntropyLoss()
-        loss_fn2 = nn.MSELoss()
-        triplet_loss = TripletLoss(margin=0.25)
         pairwise_loss = Pairwise_Loss()
         if torch.cuda.is_available():
             model = model.to(self.device)
             loss_fn = loss_fn.to(self.device)
-            # loss_fn2 = Pairwise_Loss.to(self.device)
-            triplet_loss = triplet_loss.to(self.device)
             pairwise_loss = pairwise_loss.to(self.device)
-        train_step = self.make_train_step(model, loss_fn, pairwise_loss, optimizer,optimizer2, scheduler, triplet_loss)
+        train_step = self.make_train_step(model, loss_fn, pairwise_loss, optimizer, scheduler)
 
         # load the data
 
@@ -1020,7 +1015,7 @@ if __name__ == "__main__":
                         random_seed=42,
                         learning_rate=0.00008,
                         epoch=1500,
-                        batch_size=128,
+                        batch_size=1,
                         dropout=0.7,
                         hiden_node=64,
                         hiden2=32,
@@ -1029,6 +1024,6 @@ if __name__ == "__main__":
                         num_S=6,
                         Lambda=0.001)
 
-    train.k_fold(k=10, X_train=train.data, y_train=train.label)
+    train.k_fold(k=2, X_train=train.data, y_train=train.label)
 
     # train.train(train_data=train.train_data,train_label=train.train_label,test_data=train.test_data,test_label=train.test_label,learning_rate=train.learning_rate,num_epochs=train.num_epochs,cv_type=train.cv)

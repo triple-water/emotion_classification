@@ -174,3 +174,179 @@ Train:Parameter setting for inception_se_Final
 11)T:9
 12)S:6
 13)Lambda:0.001
+
+2021-05-23 14:56:45.027105
+Train:Parameter setting for inception_se_Final
+1)number_class:3
+2)random_seed:42
+3)learning_rate:8e-05
+4)num_epochs:1500
+5)batch_size:128
+6)dropout:0.7
+7)sampling_rate:200
+8)hiden_node:64
+9)input_shape:None
+10)patient:25
+11)T:9
+12)S:6
+13)Lambda:0.001
+
+2021-05-23 14:58:09.700510
+Train:Parameter setting for inception_se_Final
+1)number_class:3
+2)random_seed:42
+3)learning_rate:8e-05
+4)num_epochs:1500
+5)batch_size:128
+6)dropout:0.7
+7)sampling_rate:200
+8)hiden_node:64
+9)input_shape:None
+10)patient:25
+11)T:9
+12)S:6
+13)Lambda:0.001
+
+2021-05-23 15:02:39.904128
+Train:Parameter setting for inception_se_Final
+1)number_class:3
+2)random_seed:42
+3)learning_rate:8e-05
+4)num_epochs:1500
+5)batch_size:128
+6)dropout:0.7
+7)sampling_rate:200
+8)hiden_node:64
+9)input_shape:None
+10)patient:25
+11)T:9
+12)S:6
+13)Lambda:0.001
+
+2021-05-23 15:07:53.503645
+Train:Parameter setting for inception_se_Final
+1)number_class:3
+2)random_seed:42
+3)learning_rate:8e-05
+4)num_epochs:1500
+5)batch_size:128
+6)dropout:0.7
+7)sampling_rate:200
+8)hiden_node:64
+9)input_shape:None
+10)patient:25
+11)T:9
+12)S:6
+13)Lambda:0.001
+
+2021-05-23 15:08:23.430188
+Train:Parameter setting for inception_se_Final
+1)number_class:3
+2)random_seed:42
+3)learning_rate:8e-05
+4)num_epochs:1500
+5)batch_size:128
+6)dropout:0.7
+7)sampling_rate:200
+8)hiden_node:64
+9)input_shape:None
+10)patient:25
+11)T:9
+12)S:6
+13)Lambda:0.001
+
+2021-05-23 15:09:44.115496
+Train:Parameter setting for inception_se_Final
+1)number_class:3
+2)random_seed:42
+3)learning_rate:8e-05
+4)num_epochs:1500
+5)batch_size:128
+6)dropout:0.7
+7)sampling_rate:200
+8)hiden_node:64
+9)input_shape:None
+10)patient:25
+11)T:9
+12)S:6
+13)Lambda:0.001
+
+2021-05-23 15:10:09.383962
+Train:Parameter setting for inception_se_Final
+1)number_class:3
+2)random_seed:42
+3)learning_rate:8e-05
+4)num_epochs:1500
+5)batch_size:1
+6)dropout:0.7
+7)sampling_rate:200
+8)hiden_node:64
+9)input_shape:None
+10)patient:25
+11)T:9
+12)S:6
+13)Lambda:0.001
+
+2021-05-23 15:11:26.442565
+Train:Parameter setting for inception_se_Final
+1)number_class:3
+2)random_seed:42
+3)learning_rate:8e-05
+4)num_epochs:1500
+5)batch_size:1
+6)dropout:0.7
+7)sampling_rate:200
+8)hiden_node:64
+9)input_shape:None
+10)patient:25
+11)T:9
+12)S:6
+13)Lambda:0.001
+
+2021-05-23 15:11:56.452495
+Train:Parameter setting for inception_se_Final
+1)number_class:3
+2)random_seed:42
+3)learning_rate:8e-05
+4)num_epochs:1500
+5)batch_size:1
+6)dropout:0.7
+7)sampling_rate:200
+8)hiden_node:64
+9)input_shape:None
+10)patient:25
+11)T:9
+12)S:6
+13)Lambda:0.001
+
+2021-05-23 15:12:12.160810
+Train:Parameter setting for inception_se_Final
+1)number_class:3
+2)random_seed:42
+3)learning_rate:8e-05
+4)num_epochs:1500
+5)batch_size:1
+6)dropout:0.7
+7)sampling_rate:200
+8)hiden_node:64
+9)input_shape:None
+10)patient:25
+11)T:9
+12)S:6
+13)Lambda:0.001
+
+2021-05-23 15:12:32.733342
+Train:Parameter setting for inception_se_Final
+1)number_class:3
+2)random_seed:42
+3)learning_rate:8e-05
+4)num_epochs:1500
+5)batch_size:1
+6)dropout:0.7
+7)sampling_rate:200
+8)hiden_node:64
+9)input_shape:None
+10)patient:25
+11)T:9
+12)S:6
+13)Lambda:0.001
