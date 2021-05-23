@@ -1,0 +1,6 @@
+2021-05-22 14:10:04,688 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function index
+2021-05-22 14:10:04,692 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function index!
+2021-05-22 21:04:57,851 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function index
+2021-05-22 21:04:57,852 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function index!
+2021-05-22 21:11:33,439 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function index
+2021-05-22 21:11:33,440 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function index!
