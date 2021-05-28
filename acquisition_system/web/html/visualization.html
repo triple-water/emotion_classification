@@ -7,7 +7,7 @@
     <script src="{{ url_for('static',filename='../lib/jquery.min.js') }}"></script>
     <script src="{{ url_for('static',filename='../lib/jquery.params.js') }}"></script>
     <script src="{{ url_for('static',filename='../lib/bootstrap.min.js') }}"></script>
-    <!--    <script src="{{ url_for('static',filename='../lib/midi.js') }}"></script>-->
+<!--        <script src="{{ url_for('static',filename='../lib/midi.js') }}"></script>-->
     <script type='text/javascript' src='//www.midijs.net/lib/midi.js'></script>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='../lib/bootstrap.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='../css/visualization.css') }}">
@@ -21,7 +21,7 @@
 </div>
 <div>
     <!--    <a href="#" id="clickMe" onClick="MIDIjs.play('../source/audio/generated.mid');"></a>-->
-    <a id="clickMe" href="#" onClick=start_play()></a>
+    <a id="click_me" href="#" onClick=start_play()>test</a>
 </div>
 
 <!--<div id="get_emotion" class="bs-example"><input type="button" class="btn btn-primary btn-lg " name="btnPlay"-->
@@ -50,15 +50,14 @@
     });
 
     function start_midi(){
-        // MIDIjs.play('../source/audio/generated.mid');
         MIDIjs.play(music_base_path + music_name);
     }
 
     function start_play() {
-     // MIDIjs.play('../source/audio/generated.mid');
      console.log(music_base_path + music_name)
      MIDIjs.get_duration(music_base_path + music_name, function(seconds) { console.log("Duration: " + seconds);} )
      MIDIjs.play(music_base_path + music_name);
+     console.log("play music");
      }
 
     function request_music_emotion(){
@@ -71,7 +70,7 @@
                 music_name = data["music"]
                 var e = document.createEvent("MouseEvents");
                 e.initEvent("click", true, true);
-                document.getElementById("clickMe").dispatchEvent(e);
+                document.getElementById("click_me").dispatchEvent(e);
                 x = data["emotion"];
                 console.log(x)
                 move()

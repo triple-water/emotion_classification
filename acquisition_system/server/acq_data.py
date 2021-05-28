@@ -1,4 +1,4 @@
-import time, os, datetime, threading
+import time, os, datetime, threading,random
 from queue import Queue
 from pathlib import Path
 import jinja2.exceptions as exceptions
@@ -22,6 +22,7 @@ app = Flask(__name__, template_folder='../web/html', static_folder="../web", sta
 count = 0
 v_name = ''
 video_list = [Path(video_name).stem for video_name in base_path.glob("*.mp4")]
+random.shuffle(video_list)
 sub_info_file_name = "sub_info.txt"
 subject_info_file_name = "subject_info.txt"
 record_name = 'test_marker' + str(datetime.datetime.now().strftime("%Y-%m-%d"))
@@ -229,6 +230,18 @@ def visualization():
         logger.error(e)
         abort(500)
 
+@app.route('/test')
+def test():
+    try:
+        # return render_template('visualization.html')
+        return render_template('test_midi.html')
+    except exceptions.TemplateNotFound as et:
+        logger.error(et.message)
+        abort(404)
+    except Exception as e:
+        logger.error(e)
+        abort(500)
+
 
 def get_eeg_data():
     eeg_data = np.random.random((1, 14, 256))
@@ -253,7 +266,6 @@ def emotion_music():
         emotion_axis = 293
     else:
         return jsonify({"code": 404, "msg": "success", "emotion": emotion_axis, "music": ""})
-    print(emotion_class)
     logger.info("get emotion: {}".format(emotion_class))
     music_name = generate.main(emotion_class)
     print(music_name)
@@ -262,24 +274,24 @@ def emotion_music():
     return jsonify({"code": 200, "msg": "success", "emotion": emotion_axis, "music": music_name})
 
 
-@app.errorhandler(404)
-def error(e):
-    return redirect(url_for('err1'))
-
-
-@app.errorhandler(500)
-def error(e):
-    return redirect(url_for('err2'))
-
-
-@app.route('/err1')
-def err1():
-    return '您访问的页面已经去浪迹天涯了'
-
-
-@app.route('/err2')
-def err2():
-    return '服务器异常。。。'
+# @app.errorhandler(404)
+# def error(e):
+#     return redirect(url_for('err1'))
+#
+#
+# @app.errorhandler(500)
+# def error(e):
+#     return redirect(url_for('err2'))
+#
+#
+# @app.route('/err1')
+# def err1():
+#     return '您访问的页面已经去浪迹天涯了'
+#
+#
+# @app.route('/err2')
+# def err2():
+#     return '服务器异常。。。'
 
 
 def product():
@@ -315,4 +327,5 @@ def consume():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    # app.run(debug=True)
+    app.run(host="0.0.0.0")

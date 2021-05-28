@@ -66,4 +66,4 @@ class Marker():
         self.c.inject_marker_request(marker)
 
     def start_record(self, name, description):
-        self.c.create_rcord(name, description)
+        self.c.create_record(name, description)
