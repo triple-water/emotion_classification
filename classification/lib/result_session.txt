@@ -1,0 +1,16 @@
+
+2021-05-23 14:19:48.958718
+Train:Parameter setting for CNN_LSTM_V2
+1)number_class:3
+2)random_seed:42
+3)learning_rate:0.0002
+4)num_epochs:500
+5)batch_size:64
+6)dropout:0.3
+7)sampling_rate:200
+8)hiden_node:32
+9)input_shape:None
+10)patient:100
+11)T:9
+12)S:6
+13)Lambda:0.0005
