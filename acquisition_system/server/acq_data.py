@@ -1,4 +1,5 @@
-import time, os, datetime
+import time, os, datetime, threading
+from queue import Queue
 from pathlib import Path
 import jinja2.exceptions as exceptions
 from flask import Flask, request, url_for, redirect, render_template, abort, jsonify
@@ -6,8 +7,11 @@ import acquisition_system.tools.file_tools as file_tools
 import acquisition_system.emotiv_api.my_marker as my_marker
 import acquisition_system.tools.logs.log_auto as logs
 import acquisition_system.tools.logs.log_tool as log_tool
-import threading
-import malin.midi_generator as midi_generator
+# import malin2.midi_generator as midi_generator
+import demo_malin.generate as generate
+import classification.get_emotion as get_emotion
+import numpy as np
+from pylsl import StreamInlet, resolve_stream
 
 # config
 base_path = Path("../web/source/video")
@@ -24,23 +28,26 @@ record_name = 'test_marker' + str(datetime.datetime.now().strftime("%Y-%m-%d"))
 record_description = 'test'
 logger = log_tool.get_logger(log_file_name="acq_data")
 
+m = my_marker.Marker()
 
-# m = my_marker.Marker()
-
-
-class Marker():
-    def inject_name_marker(self, name: str): pass
-
-    def inject_end_marker(self, record_export_folder): pass
-
-    def inject_video_start(self, video_name): pass
-
-    def inject_sub_eval(self, video_name): pass
-
-    def start_record(self, name, description): pass
+emotion_class = None
+eeg_queue = Queue(maxsize=0)
+time_count = 0
 
 
-m = Marker()
+# class Marker():
+#     def inject_name_marker(self, name: str): pass
+#
+#     def inject_end_marker(self, record_export_folder): pass
+#
+#     def inject_video_start(self, video_name): pass
+#
+#     def inject_sub_eval(self, video_name): pass
+#
+#     def start_record(self, name, description): pass
+#
+#
+# m = Marker()
 
 
 @app.route('/')
@@ -111,6 +118,13 @@ def rest():
         if request.method == 'GET' or 'POST':
             m.inject_name_marker('start')
         video_name = video_list[count]
+        t_product = threading.Thread(target=product)
+        t_consume = threading.Thread(target=consume)
+        t_product.daemon = True
+        t_consume.daemon = True
+        t_product.start()
+        t_consume.start()
+        eeg_queue.join()
         logger.info("video name: {}".format(v_name))
         return render_template('rest.html', video_name=video_name)
     except exceptions.TemplateNotFound:
@@ -189,7 +203,7 @@ def record_eeg_data():
 @logs.log_record(logger)
 def end():
     try:
-        t1 = threading.Thread(target=record_eeg_data)  # 通过target指定子线程要执行的任务。可以通过args=元组 来指定test1的参数。=-
+        t1 = threading.Thread(target=record_eeg_data)
         t1.start()
 
         global count
@@ -206,6 +220,7 @@ def end():
 @app.route('/visualization')
 def visualization():
     try:
+        # return render_template('visualization.html')
         return render_template('visualization.html')
     except exceptions.TemplateNotFound as et:
         logger.error(et.message)
@@ -215,47 +230,88 @@ def visualization():
         abort(500)
 
 
-@app.route('/emotion', methods=['GET'], strict_slashes=False)
-def emotion():
-    # 获取分类信息，传给前端，
-    emotion_class = "aaa"
-    result = None
-    if emotion_class:
-        result = jsonify({"code": 200, "msg": "success", "x": 1, "y": 2})
+def get_eeg_data():
+    eeg_data = np.random.random((1, 14, 256))
+    return eeg_data
+
+
+@logs.log_record(logger)
+@app.route('/emotion_music', methods=['GET'], strict_slashes=False)
+def emotion_music():
+    # 17 155 293
+    # 获取分类信息，传给前端
+    # emotion_class = get_emotion.get_emotion_value(get_eeg_data())
+    # emotion_class = [0,100,100,0,0,100]
+    # a = str(emotion_class[-1])
+    # emotion_index = str(emotion_class.pop())
+    emotion_axis = None
+    if emotion_class == "0":
+        emotion_axis = 17
+    elif emotion_class == "1":
+        emotion_axis = 155
+    elif emotion_class == "2":
+        emotion_axis = 293
     else:
-        result = jsonify({"code": 404, "msg": "fail", "x": None, "y": None})
-    return result
+        return jsonify({"code": 404, "msg": "success", "emotion": emotion_axis, "music": ""})
+    print(emotion_class)
+    logger.info("get emotion: {}".format(emotion_class))
+    music_name = generate.main(emotion_class)
+    print(music_name)
+    logger.info("generate music: {}".format(music_name))
+
+    return jsonify({"code": 200, "msg": "success", "emotion": emotion_axis, "music": music_name})
 
 
-@app.route('/music', methods=['GET'], strict_slashes=False)
-def music():
-    # 获取分类信息，传给前端，
-    music_state = "aaa"
-    if music_state:
-        result = jsonify({"code": 200, "msg": "success", "music_name": "generated.mid"})
-    else:
-        result = jsonify({"code": 404, "msg": "fail", "music_name": None})
-    return result
+@app.errorhandler(404)
+def error(e):
+    return redirect(url_for('err1'))
 
 
-# @app.errorhandler(404)
-# def error(e):
-#     return redirect(url_for('err1'))
-#
-#
-# @app.errorhandler(500)
-# def error(e):
-#     return redirect(url_for('err2'))
+@app.errorhandler(500)
+def error(e):
+    return redirect(url_for('err2'))
 
-#
-# @app.route('/err1')
-# def err1():
-#     return '您访问的页面已经去浪迹天涯了'
-#
-#
-# @app.route('/err2')
-# def err2():
-#     return '服务器异常。。。'
+
+@app.route('/err1')
+def err1():
+    return '您访问的页面已经去浪迹天涯了'
+
+
+@app.route('/err2')
+def err2():
+    return '服务器异常。。。'
+
+
+def product():
+    streams = resolve_stream('type', 'EEG')
+    inlet = StreamInlet(streams[0])
+    while True:
+        # sample, timestamp = inlet.pull_sample()
+        sample, timestamp = inlet.pull_chunk(timeout=1.0)
+        eeg_queue.put(sample)
+
+
+def consume():
+    global time_count, emotion_class
+    raw_data_list = []
+    while True:
+        eeg_data = eeg_queue.get()
+        if time_count < 60:
+            if len(eeg_data) == 256:
+                raw_data_list.append(eeg_data)
+            time_count += 1
+        else:
+            raw_np = np.array(raw_data_list)[:, :, 3:-1]
+            raw_np = raw_np.swapaxes(2, 1)
+            print(raw_np.shape)
+            emotion_list = get_emotion.get_emotion_value(raw_np)
+            print(emotion_list)
+            emotion_class = str(np.argmax(np.bincount(emotion_list)))
+            print(emotion_class)
+            logger.info("emotion class is: {}".format(emotion_class))
+            time_count = 0
+            raw_data_list[:] = []
+        eeg_queue.task_done()
 
 
 if __name__ == '__main__':

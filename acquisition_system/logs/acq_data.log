@@ -4,3 +4,317 @@
 2021-05-22 21:04:57,852 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function index!
 2021-05-22 21:11:33,439 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function index
 2021-05-22 21:11:33,440 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function index!
+2021-05-27 16:42:35,513 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function index
+2021-05-27 16:42:35,516 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function index!
+2021-05-27 16:42:50,142 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function info_page
+2021-05-27 16:42:50,144 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function info_page!
+2021-05-27 16:42:54,778 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function subject_info
+2021-05-27 16:42:54,780 - INFO       - acq_data.py - subject_info - 0
+2021-05-27 16:42:54,781 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function subject_info!
+2021-05-27 16:42:54,787 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function rest_info
+2021-05-27 16:42:54,791 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function rest_info!
+2021-05-27 16:42:56,931 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function rest
+2021-05-27 16:42:57,022 - INFO       - acq_data.py - rest - video name: 
+2021-05-27 16:42:57,024 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function rest!
+2021-05-27 16:44:27,757 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function index
+2021-05-27 16:44:27,760 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function index!
+2021-05-27 16:44:28,994 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function info_page
+2021-05-27 16:44:28,995 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function info_page!
+2021-05-27 16:44:31,961 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function subject_info
+2021-05-27 16:44:31,962 - INFO       - acq_data.py - subject_info - 0
+2021-05-27 16:44:31,963 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function subject_info!
+2021-05-27 16:44:31,968 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function rest_info
+2021-05-27 16:44:31,973 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function rest_info!
+2021-05-27 16:44:32,961 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function rest
+2021-05-27 16:44:33,052 - INFO       - acq_data.py - rest - video name: 
+2021-05-27 16:44:33,054 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function rest!
+2021-05-27 16:44:40,331 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function subjective_evaluation
+2021-05-27 16:44:40,419 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function subjective_evaluation!
+2021-05-27 16:44:42,547 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function submit_evaluation
+2021-05-27 16:44:42,547 - INFO       - acq_data.py - submit_evaluation - video name: Positive_2
+emotion: happy
+2021-05-27 16:44:42,548 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function submit_evaluation!
+2021-05-27 16:44:42,553 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function rest
+2021-05-27 16:44:42,636 - INFO       - acq_data.py - rest - video name: Positive_2
+2021-05-27 16:44:42,637 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function rest!
+2021-05-27 16:44:49,138 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function subjective_evaluation
+2021-05-27 16:44:49,236 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function subjective_evaluation!
+2021-05-27 16:44:52,606 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function submit_evaluation
+2021-05-27 16:44:52,606 - INFO       - acq_data.py - submit_evaluation - video name: Positive_3
+emotion: happy
+2021-05-27 16:44:52,607 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function submit_evaluation!
+2021-05-27 16:44:52,612 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function rest
+2021-05-27 16:44:52,703 - INFO       - acq_data.py - rest - video name: Positive_3
+2021-05-27 16:44:52,704 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function rest!
+2021-05-27 16:45:00,418 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function subjective_evaluation
+2021-05-27 16:45:00,518 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function subjective_evaluation!
+2021-05-27 16:45:07,410 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function submit_evaluation
+2021-05-27 16:45:07,411 - INFO       - acq_data.py - submit_evaluation - video name: Neural_3
+emotion: happy
+2021-05-27 16:45:07,412 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function submit_evaluation!
+2021-05-27 16:45:07,417 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function rest
+2021-05-27 16:45:07,507 - INFO       - acq_data.py - rest - video name: Neural_3
+2021-05-27 16:45:07,507 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function rest!
+2021-05-27 16:45:14,624 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function subjective_evaluation
+2021-05-27 16:45:14,722 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function subjective_evaluation!
+2021-05-27 16:45:15,771 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function submit_evaluation
+2021-05-27 16:45:15,771 - INFO       - acq_data.py - submit_evaluation - video name: Negative_1
+emotion: happy
+2021-05-27 16:45:15,772 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function submit_evaluation!
+2021-05-27 16:45:15,777 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function rest
+2021-05-27 16:45:15,862 - INFO       - acq_data.py - rest - video name: Negative_1
+2021-05-27 16:45:15,863 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function rest!
+2021-05-27 16:45:27,237 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function subjective_evaluation
+2021-05-27 16:45:27,323 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function subjective_evaluation!
+2021-05-27 16:45:29,561 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function submit_evaluation
+2021-05-27 16:45:29,561 - INFO       - acq_data.py - submit_evaluation - video name: Positive_1
+emotion: happy
+2021-05-27 16:45:29,562 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function submit_evaluation!
+2021-05-27 16:45:29,567 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function rest
+2021-05-27 16:45:29,662 - INFO       - acq_data.py - rest - video name: Positive_1
+2021-05-27 16:45:29,663 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function rest!
+2021-05-27 16:45:53,047 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function subjective_evaluation
+2021-05-27 16:45:53,137 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function subjective_evaluation!
+2021-05-27 16:45:56,380 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function submit_evaluation
+2021-05-27 16:45:56,380 - INFO       - acq_data.py - submit_evaluation - video name: Negative_2
+emotion: happy
+2021-05-27 16:45:56,381 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function submit_evaluation!
+2021-05-27 16:45:56,386 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function rest
+2021-05-27 16:45:56,482 - INFO       - acq_data.py - rest - video name: Negative_2
+2021-05-27 16:45:56,483 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function rest!
+2021-05-27 16:46:06,049 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function subjective_evaluation
+2021-05-27 16:46:06,142 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function subjective_evaluation!
+2021-05-27 16:46:07,377 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function submit_evaluation
+2021-05-27 16:46:07,377 - INFO       - acq_data.py - submit_evaluation - video name: Neural_2
+emotion: happy
+2021-05-27 16:46:07,378 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function submit_evaluation!
+2021-05-27 16:46:07,383 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function rest
+2021-05-27 16:46:07,476 - INFO       - acq_data.py - rest - video name: Neural_2
+2021-05-27 16:46:07,477 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function rest!
+2021-05-27 16:46:19,113 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function subjective_evaluation
+2021-05-27 16:46:19,207 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function subjective_evaluation!
+2021-05-27 16:46:20,386 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function submit_evaluation
+2021-05-27 16:46:20,387 - INFO       - acq_data.py - submit_evaluation - video name: Negative_3
+emotion: happy
+2021-05-27 16:46:20,388 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function submit_evaluation!
+2021-05-27 16:46:20,393 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function rest
+2021-05-27 16:46:20,481 - INFO       - acq_data.py - rest - video name: Negative_3
+2021-05-27 16:46:20,481 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function rest!
+2021-05-27 16:46:28,611 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function subjective_evaluation
+2021-05-27 16:46:28,703 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function subjective_evaluation!
+2021-05-27 16:46:29,967 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function submit_evaluation
+2021-05-27 16:46:29,968 - INFO       - acq_data.py - submit_evaluation - video name: Neural_1
+emotion: happy
+2021-05-27 16:46:29,968 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function submit_evaluation!
+2021-05-27 16:46:29,974 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function end
+2021-05-27 16:46:29,976 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function end!
+2021-05-27 16:47:02,137 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function index
+2021-05-27 16:47:02,138 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function index!
+2021-05-27 16:47:10,880 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function info_page
+2021-05-27 16:47:10,881 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function info_page!
+2021-05-27 16:47:15,234 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function subject_info
+2021-05-27 16:47:15,235 - INFO       - acq_data.py - subject_info - 0
+2021-05-27 16:47:15,236 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function subject_info!
+2021-05-27 16:47:15,241 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function rest_info
+2021-05-27 16:47:15,242 - ERROR      - acq_data.py - rest_info - 'result'
+2021-05-27 16:47:15,242 - ERROR      - log_auto.py - log_decorator_wrapper - Exception: 500 Internal Server Error: The server encountered an internal error and was unable to complete your request. Either the server is overloaded or there is an error in the application.
+2021-05-27 16:47:37,832 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function index
+2021-05-27 16:47:37,835 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function index!
+2021-05-27 16:47:50,495 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function info_page
+2021-05-27 16:47:50,498 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function info_page!
+2021-05-27 16:47:53,195 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function subject_info
+2021-05-27 16:47:53,196 - INFO       - acq_data.py - subject_info - 0
+2021-05-27 16:47:53,197 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function subject_info!
+2021-05-27 16:47:53,204 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function rest_info
+2021-05-27 16:47:53,210 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function rest_info!
+2021-05-27 16:47:54,563 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function rest
+2021-05-27 16:47:54,651 - INFO       - acq_data.py - rest - video name: 
+2021-05-27 16:47:54,653 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function rest!
+2021-05-27 16:48:26,674 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function subjective_evaluation
+2021-05-27 16:48:26,767 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function subjective_evaluation!
+2021-05-27 17:13:37,114 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function index
+2021-05-27 17:13:37,116 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function index!
+2021-05-27 17:14:34,312 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function info_page
+2021-05-27 17:14:34,314 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function info_page!
+2021-05-27 17:14:53,162 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function subject_info
+2021-05-27 17:14:53,164 - INFO       - acq_data.py - subject_info - 0
+2021-05-27 17:14:53,165 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function subject_info!
+2021-05-27 17:14:53,170 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function rest_info
+2021-05-27 17:14:53,175 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function rest_info!
+2021-05-27 17:14:56,577 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function rest
+2021-05-27 17:14:56,663 - INFO       - acq_data.py - rest - video name: 
+2021-05-27 17:14:56,669 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function rest!
+2021-05-27 17:17:50,061 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function subjective_evaluation
+2021-05-27 17:17:50,155 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function subjective_evaluation!
+2021-05-27 17:17:54,200 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function submit_evaluation
+2021-05-27 17:17:54,201 - INFO       - acq_data.py - submit_evaluation - video name: Positive_1
+emotion: happy
+2021-05-27 17:17:54,202 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function submit_evaluation!
+2021-05-27 17:17:54,206 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function rest
+2021-05-27 17:17:54,291 - INFO       - acq_data.py - rest - video name: Positive_1
+2021-05-27 17:17:54,291 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function rest!
+2021-05-27 17:21:17,469 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function subjective_evaluation
+2021-05-27 17:21:17,557 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function subjective_evaluation!
+2021-05-27 17:21:23,249 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function submit_evaluation
+2021-05-27 17:21:23,249 - INFO       - acq_data.py - submit_evaluation - video name: Neural_3
+emotion: none
+2021-05-27 17:21:23,250 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function submit_evaluation!
+2021-05-27 17:21:23,255 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function rest
+2021-05-27 17:21:23,346 - INFO       - acq_data.py - rest - video name: Neural_3
+2021-05-27 17:21:23,346 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function rest!
+2021-05-27 17:23:42,291 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function subjective_evaluation
+2021-05-27 17:23:42,383 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function subjective_evaluation!
+2021-05-27 17:23:48,066 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function submit_evaluation
+2021-05-27 17:23:48,066 - INFO       - acq_data.py - submit_evaluation - video name: Negative_2
+emotion: none
+2021-05-27 17:23:48,067 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function submit_evaluation!
+2021-05-27 17:23:48,072 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function rest
+2021-05-27 17:23:48,156 - INFO       - acq_data.py - rest - video name: Negative_2
+2021-05-27 17:23:48,157 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function rest!
+2021-05-27 17:26:04,617 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function subjective_evaluation
+2021-05-27 17:26:04,704 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function subjective_evaluation!
+2021-05-27 17:26:07,050 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function submit_evaluation
+2021-05-27 17:26:07,051 - INFO       - acq_data.py - submit_evaluation - video name: Positive_2
+emotion: happy
+2021-05-27 17:26:07,051 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function submit_evaluation!
+2021-05-27 17:26:07,057 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function rest
+2021-05-27 17:26:07,148 - INFO       - acq_data.py - rest - video name: Positive_2
+2021-05-27 17:26:07,149 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function rest!
+2021-05-27 17:29:02,591 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function subjective_evaluation
+2021-05-27 17:29:02,677 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function subjective_evaluation!
+2021-05-27 17:29:06,089 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function submit_evaluation
+2021-05-27 17:29:06,089 - INFO       - acq_data.py - submit_evaluation - video name: Negative_3
+emotion: sad
+2021-05-27 17:29:06,090 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function submit_evaluation!
+2021-05-27 17:29:06,095 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function rest
+2021-05-27 17:29:06,188 - INFO       - acq_data.py - rest - video name: Negative_3
+2021-05-27 17:29:06,188 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function rest!
+2021-05-27 17:33:02,043 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function subjective_evaluation
+2021-05-27 17:33:02,139 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function subjective_evaluation!
+2021-05-27 17:33:05,354 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function submit_evaluation
+2021-05-27 17:33:05,355 - INFO       - acq_data.py - submit_evaluation - video name: Negative_1
+emotion: sad
+2021-05-27 17:33:05,355 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function submit_evaluation!
+2021-05-27 17:33:05,361 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function rest
+2021-05-27 17:33:05,453 - INFO       - acq_data.py - rest - video name: Negative_1
+2021-05-27 17:33:05,454 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function rest!
+2021-05-27 17:36:05,017 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function subjective_evaluation
+2021-05-27 17:36:05,107 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function subjective_evaluation!
+2021-05-27 17:36:08,924 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function submit_evaluation
+2021-05-27 17:36:08,924 - INFO       - acq_data.py - submit_evaluation - video name: Positive_3
+emotion: happy
+2021-05-27 17:36:08,925 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function submit_evaluation!
+2021-05-27 17:36:08,931 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function rest
+2021-05-27 17:36:09,023 - INFO       - acq_data.py - rest - video name: Positive_3
+2021-05-27 17:36:09,024 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function rest!
+2021-05-27 17:39:20,801 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function subjective_evaluation
+2021-05-27 17:39:20,888 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function subjective_evaluation!
+2021-05-27 17:39:24,674 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function submit_evaluation
+2021-05-27 17:39:24,674 - INFO       - acq_data.py - submit_evaluation - video name: Neural_1
+emotion: none
+2021-05-27 17:39:24,675 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function submit_evaluation!
+2021-05-27 17:39:24,681 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function rest
+2021-05-27 17:39:24,773 - INFO       - acq_data.py - rest - video name: Neural_1
+2021-05-27 17:39:24,774 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function rest!
+2021-05-27 17:41:27,825 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function subjective_evaluation
+2021-05-27 17:41:27,908 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function subjective_evaluation!
+2021-05-27 17:41:31,250 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function submit_evaluation
+2021-05-27 17:41:31,250 - INFO       - acq_data.py - submit_evaluation - video name: Neural_2
+emotion: none
+2021-05-27 17:41:31,251 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function submit_evaluation!
+2021-05-27 17:41:31,256 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function end
+2021-05-27 17:41:31,258 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function end!
+2021-05-27 20:44:06,433 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function index
+2021-05-27 20:44:06,436 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function index!
+2021-05-27 20:44:06,809 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function index
+2021-05-27 20:44:06,809 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function index!
+2021-05-27 20:44:55,565 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function info_page
+2021-05-27 20:44:55,567 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function info_page!
+2021-05-27 20:45:15,237 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function subject_info
+2021-05-27 20:45:15,238 - INFO       - acq_data.py - subject_info - 0
+2021-05-27 20:45:15,240 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function subject_info!
+2021-05-27 20:45:15,245 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function rest_info
+2021-05-27 20:45:15,249 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function rest_info!
+2021-05-27 20:45:19,149 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function rest
+2021-05-27 20:45:19,238 - INFO       - acq_data.py - rest - video name: 
+2021-05-27 20:45:19,243 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function rest!
+2021-05-27 20:48:18,870 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function subjective_evaluation
+2021-05-27 20:48:18,970 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function subjective_evaluation!
+2021-05-27 20:48:25,253 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function submit_evaluation
+2021-05-27 20:48:25,253 - INFO       - acq_data.py - submit_evaluation - video name: Positive_3
+emotion: positive
+2021-05-27 20:48:25,254 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function submit_evaluation!
+2021-05-27 20:48:25,258 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function rest
+2021-05-27 20:48:25,343 - INFO       - acq_data.py - rest - video name: Positive_3
+2021-05-27 20:48:25,343 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function rest!
+2021-05-27 20:51:48,515 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function subjective_evaluation
+2021-05-27 20:51:48,607 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function subjective_evaluation!
+2021-05-27 20:51:54,694 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function submit_evaluation
+2021-05-27 20:51:54,694 - INFO       - acq_data.py - submit_evaluation - video name: Neural_3
+emotion: neural
+2021-05-27 20:51:54,695 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function submit_evaluation!
+2021-05-27 20:51:54,700 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function rest
+2021-05-27 20:51:54,787 - INFO       - acq_data.py - rest - video name: Neural_3
+2021-05-27 20:51:54,788 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function rest!
+2021-05-27 20:54:13,735 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function subjective_evaluation
+2021-05-27 20:54:13,823 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function subjective_evaluation!
+2021-05-27 20:54:18,654 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function submit_evaluation
+2021-05-27 20:54:18,654 - INFO       - acq_data.py - submit_evaluation - video name: Negative_2
+emotion: negative
+2021-05-27 20:54:18,655 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function submit_evaluation!
+2021-05-27 20:54:18,660 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function rest
+2021-05-27 20:54:18,743 - INFO       - acq_data.py - rest - video name: Negative_2
+2021-05-27 20:54:18,744 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function rest!
+2021-05-27 20:57:12,108 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function subjective_evaluation
+2021-05-27 20:57:12,201 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function subjective_evaluation!
+2021-05-27 20:57:15,709 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function submit_evaluation
+2021-05-27 20:57:15,709 - INFO       - acq_data.py - submit_evaluation - video name: Positive_1
+emotion: positive
+2021-05-27 20:57:15,710 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function submit_evaluation!
+2021-05-27 20:57:15,715 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function rest
+2021-05-27 20:57:15,803 - INFO       - acq_data.py - rest - video name: Positive_1
+2021-05-27 20:57:15,804 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function rest!
+2021-05-27 21:00:11,238 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function subjective_evaluation
+2021-05-27 21:00:11,333 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function subjective_evaluation!
+2021-05-27 21:00:14,950 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function submit_evaluation
+2021-05-27 21:00:14,951 - INFO       - acq_data.py - submit_evaluation - video name: Negative_3
+emotion: positive
+2021-05-27 21:00:14,952 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function submit_evaluation!
+2021-05-27 21:00:14,957 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function rest
+2021-05-27 21:00:15,053 - INFO       - acq_data.py - rest - video name: Negative_3
+2021-05-27 21:00:15,054 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function rest!
+2021-05-27 21:04:10,875 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function subjective_evaluation
+2021-05-27 21:04:10,958 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function subjective_evaluation!
+2021-05-27 21:04:15,382 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function submit_evaluation
+2021-05-27 21:04:15,382 - INFO       - acq_data.py - submit_evaluation - video name: Negative_1
+emotion: negative
+2021-05-27 21:04:15,383 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function submit_evaluation!
+2021-05-27 21:04:15,389 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function rest
+2021-05-27 21:04:15,472 - INFO       - acq_data.py - rest - video name: Negative_1
+2021-05-27 21:04:15,472 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function rest!
+2021-05-27 21:06:18,516 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function subjective_evaluation
+2021-05-27 21:06:18,608 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function subjective_evaluation!
+2021-05-27 21:06:23,872 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function submit_evaluation
+2021-05-27 21:06:23,872 - INFO       - acq_data.py - submit_evaluation - video name: Neural_2
+emotion: neural
+2021-05-27 21:06:23,873 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function submit_evaluation!
+2021-05-27 21:06:23,879 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function rest
+2021-05-27 21:06:23,976 - INFO       - acq_data.py - rest - video name: Neural_2
+2021-05-27 21:06:23,976 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function rest!
+2021-05-27 21:09:35,735 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function subjective_evaluation
+2021-05-27 21:09:35,826 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function subjective_evaluation!
+2021-05-27 21:09:51,060 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function submit_evaluation
+2021-05-27 21:09:51,060 - INFO       - acq_data.py - submit_evaluation - video name: Neural_1
+emotion: positive
+2021-05-27 21:09:51,061 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function submit_evaluation!
+2021-05-27 21:09:51,066 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function rest
+2021-05-27 21:09:51,158 - INFO       - acq_data.py - rest - video name: Neural_1
+2021-05-27 21:09:51,159 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function rest!
+2021-05-27 21:12:07,617 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function subjective_evaluation
+2021-05-27 21:12:07,703 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function subjective_evaluation!
+2021-05-27 21:12:11,854 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function submit_evaluation
+2021-05-27 21:12:11,854 - INFO       - acq_data.py - submit_evaluation - video name: Positive_2
+emotion: neural
+2021-05-27 21:12:11,855 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function submit_evaluation!
+2021-05-27 21:12:11,861 - INFO       - log_auto.py - log_decorator_wrapper - Arguments:  - Begin function end
+2021-05-27 21:12:11,863 - INFO       - log_auto.py - log_decorator_wrapper - Returned: - End function end!
