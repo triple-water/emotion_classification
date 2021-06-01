@@ -18,6 +18,7 @@ import serial
 base_path = Path("../web/source/video")
 save_path = "../acq_data"
 save_path = os.path.join(save_path, time.strftime("%Y%m%d%H%M%S", time.localtime()))
+# TODO: check usb port
 ser = serial.Serial("COM4", 9600, timeout=5)  # 开启com3口，波特率115200，超时5
 # global parameters
 app = Flask(__name__, template_folder='../web/html', static_folder="../web", static_url_path="")
