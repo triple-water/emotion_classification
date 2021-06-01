@@ -1,4 +1,4 @@
-import time, os, datetime, threading,random
+import time, os, datetime, threading, random
 from queue import Queue
 from pathlib import Path
 import jinja2.exceptions as exceptions
@@ -12,11 +12,13 @@ import demo_malin.generate as generate
 import classification.get_emotion as get_emotion
 import numpy as np
 from pylsl import StreamInlet, resolve_stream
+import serial
 
 # config
 base_path = Path("../web/source/video")
 save_path = "../acq_data"
 save_path = os.path.join(save_path, time.strftime("%Y%m%d%H%M%S", time.localtime()))
+ser = serial.Serial("COM4", 9600, timeout=5)  # 开启com3口，波特率115200，超时5
 # global parameters
 app = Flask(__name__, template_folder='../web/html', static_folder="../web", static_url_path="")
 count = 0
@@ -25,6 +27,8 @@ video_list = [Path(video_name).stem for video_name in base_path.glob("*.mp4")]
 random.shuffle(video_list)
 sub_info_file_name = "sub_info.txt"
 subject_info_file_name = "subject_info.txt"
+skin_data_file_name = "skin_data.txt"
+marker_file_name = "marker.txt"
 record_name = 'test_marker' + str(datetime.datetime.now().strftime("%Y-%m-%d"))
 record_description = 'test'
 logger = log_tool.get_logger(log_file_name="acq_data")
@@ -33,7 +37,10 @@ m = my_marker.Marker()
 
 emotion_class = None
 eeg_queue = Queue(maxsize=0)
+skin_queue = Queue(maxsize=0)
 time_count = 0
+skin_retry_count = 0
+marker_list = []
 
 
 # class Marker():
@@ -116,15 +123,23 @@ def rest_info():
 def rest():
     try:
         global count
-        if request.method == 'GET' or 'POST':
-            m.inject_name_marker('start')
+        # if request.method == 'GET' or 'POST':
+        m.inject_name_marker('start')
         video_name = video_list[count]
         t_product = threading.Thread(target=product)
         t_consume = threading.Thread(target=consume)
+        t_skin_prodeuct = threading.Thread(target=skin_resistance_product)
+        marker_list.append("start: {}".format(str(time.time())))
+        t_skin_consume = threading.Thread(target=skin_resistance_consume)
         t_product.daemon = True
         t_consume.daemon = True
+        t_skin_prodeuct.daemon = True
+        t_skin_consume.daemon = True
         t_product.start()
         t_consume.start()
+        t_skin_prodeuct.start()
+        t_skin_consume.start()
+        skin_queue.join()
         eeg_queue.join()
         logger.info("video name: {}".format(v_name))
         return render_template('rest.html', video_name=video_name)
@@ -150,6 +165,7 @@ def video():
         global v_name
         v_name = request.args.get("v_name")
         m.inject_video_start(v_name)
+        marker_list.append("{} start: {}".format(v_name, str(time.time())))
         return render_template('video.html')
     except exceptions.TemplateNotFound as et:
         # logger.error(et.message)
@@ -164,6 +180,7 @@ def video():
 def subjective_evaluation():
     try:
         m.inject_sub_eval(v_name)
+        marker_list.append("sub_eval_{} start: {}".format(v_name, str(time.time())))
         return render_template('subjective_evaluation.html')
     except exceptions.TemplateNotFound as et:
         logger.error(et.message)
@@ -198,6 +215,7 @@ def submit_evaluation():
 
 def record_eeg_data():
     m.inject_end_marker(os.path.abspath(save_path))
+    marker_list.append("end: {}".format(str(time.time())))
 
 
 @app.route('/end')
@@ -205,8 +223,8 @@ def record_eeg_data():
 def end():
     try:
         t1 = threading.Thread(target=record_eeg_data)
+        file_tools.write_content_overlap(save_path, marker_file_name, "\n".join(marker_list))
         t1.start()
-
         global count
         count = 0
         return render_template('end.html')
@@ -221,20 +239,7 @@ def end():
 @app.route('/visualization')
 def visualization():
     try:
-        # return render_template('visualization.html')
         return render_template('visualization.html')
-    except exceptions.TemplateNotFound as et:
-        logger.error(et.message)
-        abort(404)
-    except Exception as e:
-        logger.error(e)
-        abort(500)
-
-@app.route('/test')
-def test():
-    try:
-        # return render_template('visualization.html')
-        return render_template('test_midi.html')
     except exceptions.TemplateNotFound as et:
         logger.error(et.message)
         abort(404)
@@ -251,12 +256,6 @@ def get_eeg_data():
 @logs.log_record(logger)
 @app.route('/emotion_music', methods=['GET'], strict_slashes=False)
 def emotion_music():
-    # 17 155 293
-    # 获取分类信息，传给前端
-    # emotion_class = get_emotion.get_emotion_value(get_eeg_data())
-    # emotion_class = [0,100,100,0,0,100]
-    # a = str(emotion_class[-1])
-    # emotion_index = str(emotion_class.pop())
     emotion_axis = None
     if emotion_class == "0":
         emotion_axis = 17
@@ -293,7 +292,7 @@ def emotion_music():
 # def err2():
 #     return '服务器异常。。。'
 
-
+@logs.log_record(logger)
 def product():
     streams = resolve_stream('type', 'EEG')
     inlet = StreamInlet(streams[0])
@@ -303,6 +302,7 @@ def product():
         eeg_queue.put(sample)
 
 
+@logs.log_record(logger)
 def consume():
     global time_count, emotion_class
     raw_data_list = []
@@ -323,7 +323,45 @@ def consume():
             logger.info("emotion class is: {}".format(emotion_class))
             time_count = 0
             raw_data_list[:] = []
-        eeg_queue.task_done()
+
+
+@logs.log_record(logger)
+def skin_resistance_product():
+    global skin_retry_count
+    ser.flushInput()
+    try:
+        while True:
+            data_count = ser.inWaiting()
+            if data_count != 0:
+                recv = ser.read(ser.in_waiting).decode("gbk")
+                record_skin_data = str(time.time()) + "\n" + recv
+                skin_queue.put(record_skin_data)
+            time.sleep(0.1)
+    except UnicodeDecodeError as ude:
+        if skin_retry_count >= 0:
+            skin_retry_count -= 1
+            skin_resistance_product()
+        logger.error("skin_resistance error: {}".format(ude))
+
+
+@logs.log_record(logger)
+def skin_resistance_consume():
+    write_count = 0
+    result_skin = []
+    try:
+        while True:
+            if write_count < 600:
+                skin_data = skin_queue.get()
+                result_skin.append(skin_data)
+                write_count += 1
+            else:
+                write_count = 0
+                print(save_path + os.sep + skin_data_file_name)
+                file_tools.write_content_add(save_path, skin_data_file_name, "\n".join(result_skin))
+
+    except Exception as e:
+        print(e)
+        logger.error("skin_resistance_consume error: {}".format(e))
 
 
 if __name__ == '__main__':
