@@ -16,33 +16,21 @@ import numpy as np
 import torch.nn.functional as F
 import optuna
 from torch.nn.modules.loss import _Loss
-
-# viz = Visdom(env='seed emotion recognition -- gm')
+def new_file(test_dir):
+    list2 = []
+    #列举test_dir目录下的所有文件（名），结果以列表形式返回。
+    lists=os.listdir(test_dir)
+    for i in lists:
+        if i.endswith('.tar'):
+            list2.append(i)
+    #sort按key的关键字进行升序排序，lambda的入参fn为lists列表的元素，获取文件的最后修改时间，所以最终以文件时间从小到大排序
+    #最后对lists元素，按文件修改时间大小从小到大排序。
+    list2.sort(key=lambda fn:os.path.getmtime(test_dir+'\\'+fn))
+    #获取最新文件的绝对路径，列表中最后一个值,文件夹+文件名
+    file_path=os.path.join(test_dir,list2[-1])
+    return file_path
 name_loss = ['train_loss', 'val_loss']
 name_acc = ['train_acc', 'val_acc']
-
-
-# class ContrastiveLoss(torch.nn.Module):
-#     """
-#     Contrastive loss function.
-#     Based on: http://yann.lecun.com/exdb/publis/pdf/hadsell-chopra-lecun-06.pdf
-#     """
-#
-#     def __init__(self, margin=0.3):
-#         super(ContrastiveLoss, self).__init__()
-#         self.margin = margin
-#
-#     def forward(self, output1, output2):
-#         loss_contrastive = []
-#
-#         euclidean_distance = F.pairwise_distance(output1, output2, keepdim=True)
-#         loss_contrastive.append(torch.pow(torch.clamp(self.margin - euclidean_distance, min=0.0), 2))
-#         loss1 = torch.stack(loss_contrastive, dim=0)
-#         loss = torch.mean(loss1, dim=1, keepdim=False)
-#         loss = torch.squeeze(loss, dim=1)
-#         return loss
-
-# TODO:增加label蒙版，运用异或实现无FOR的快速LOSS算法
 
 class Pairwise_Loss(_Loss):
     """
@@ -94,7 +82,6 @@ class Pairwise_Loss(_Loss):
         #                               (1-Is) * torch.pow(torch.clamp(self.margin - euclidean_distance, min=0.0), 2))
         loss2 = torch.mean(euclidean_distance)
         return loss2/20
-
 
 class TripletLoss(nn.Module):
     """Triplet loss with hard positive/negative mining.
@@ -177,9 +164,8 @@ class TrainModel():
         self.learning_rate = 1e-3
         self.num_epochs = 200
         self.num_class = 3
-        self.batch_size = 1
+        self.batch_size = 512
         self.patient = 50  # early stopping patient
-
         # Parameters: Model
         self.dropout = 0.3
         self.hiden_node = 128
@@ -202,50 +188,6 @@ class TrainModel():
         self.test_data = np.array(dataset['test_data'])
         self.test_label = np.array(dataset['test_label'])
 
-        #
-        # sampling = deleteDuplicatedElementFromList(sampling2[:-1])
-        # self.data = np.concatenate([self.data,self.data], axis=-1)
-        # self.test_data = np.concatenate([self.test_data,self.test_data],axis=-1)
-        # s1 = self.data[:,:,sampling]
-        # s2 = self.data[:,:,200:206]
-        # s3 = self.test_data[:,:,sampling]
-        # s4 = self.test_data[:,:,200:206]
-        # self.data = np.concatenate([s1,s2],axis=-1)
-        # self.test_data = np.concatenate([s3,s4],axis=-1)
-        # 导入数据后首先划分出测试集
-
-        # self.train_data_DE = np.array(dataset['de_train'])
-        # self.train_label_DE = np.array(dataset['train_label'])
-        # self.val_data_DE = np.array(dataset['de_val'])
-        # self.val_label_DE = np.array(dataset['val_label'])
-        # self.test_data_DE = np.array(dataset['de_test'])
-        # self.test_label_DE = np.array(dataset['test_label'])
-
-        # dataset2 = h5py.File(path, 'r')
-        # self.data = np.array(dataset2['data'])
-        # self.label = np.array(dataset2['label'])
-        # index = np.arange(self.data.shape[0])
-        # index_randm = index
-        # np.random.shuffle(index_randm)
-        # self.label = self.label[index_randm]
-        # self.data = self.data[index_randm]
-        #
-        # self.val_data = self.data[int(self.data.shape[0] * 0.8):]  # 从打乱的数据中取百分之二十作为VAL
-        # self.val_label = self.label[int(self.data.shape[0] * 0.8):]
-        #
-        # self.train_data = self.data[0:int(self.data.shape[0] * 0.8)]
-        # self.train_label = self.label[0:int(self.data.shape[0] * 0.8)]
-        # self.test_data = np.array(dataset2['test_data'])
-        # self.test_label = np.array(dataset2['test_label'])
-        #
-        # self.train_data = np.concatenate([self.train_data,self.train_data_DE],axis=2)
-        # self.val_data = np.concatenate([self.val_data, self.val_data_DE], axis=2)
-        # self.test_data = np.concatenate([self.test_data, self.test_data_DE], axis=2)
-        # desire_shape = [1, 62, 5]
-        # self.train_data_normal = RawEEGDataset(self.train_data, self.train_label, desire_shape)
-        # self.val_data_normal = RawEEGDataset(self.val_data, self.val_label, desire_shape)
-        # self.data_normal = RawEEGDataset(self.data, self.label, desire_shape)
-        # self.test_data_normal = RawEEGDataset(self.test_data, self.test_label, desire_shape)
         print('Data loaded!\n Data shape:[{}], Label shape:[{}], Test_Data shape:[{}], Test_Label shape:[{}]'
               .format(self.data.shape, self.label.shape, self.test_data.shape, self.test_label.shape))
 
@@ -389,557 +331,6 @@ class TrainModel():
                    '\n')
 
         file.close()
-
-    def regulization(self, model, Lambda):
-        w = torch.cat([x.view(-1) for x in model.parameters()])
-        err = Lambda * torch.sum(torch.abs(w))
-        return err
-
-    def regulization2(self, model, Lambda):
-        w = torch.cat([x.view(-1) for x in model.parameters()])
-        err = Lambda * torch.sqrt_(torch.sum(w ** 2))
-        return err
-
-    def make_train_step(self, model, loss_fn, pairwise_loss, optimizer, scheduler):
-        def train_step(x, y):
-            model.train()
-            yhat_pair, yhat = model(x)
-            pred = yhat.max(1)[1]
-            correct = (pred == y).sum()
-            acc = correct.item() / len(pred)
-            # L1 regularization
-            loss_r = self.regulization2(model, self.Lambda)
-            # yhat is in one-hot representation;
-            loss = loss_fn(yhat, y.long()) + loss_r
-            loss2 = pairwise_loss(yhat_pair,y)
-            loss = loss+self.loss_lambda*loss2
-            ####xiugai
-            # list_0 = []
-            # list_1 = []
-            # list_2 = []
-            # list_y0 = []
-            # list_y1 = []
-            # for i in range(len(y)):
-            #     if(y[i] == 0):
-            #         list_0.append(yhat_lstm[i])
-            #         list_y0.append(y[i])
-            #     elif(y[i] == 1):
-            #         list_1.append(yhat_lstm[i])
-            #         list_y1.append(y[i])
-            #     else:
-            #         list_2.append(yhat_lstm[i])
-            # list_0 = torch.stack(list_0,dim=0)
-            # list_1 = torch.stack(list_1,dim=0)
-            # list_y0 = torch.stack(list_y0,dim=0)
-            # list_y1 = torch.stack(list_y1,dim=0)
-            # list_0 = torch.cat((list_0,list_1),dim=0)
-            # list_y = torch.cat((list_y0,list_y1),dim=0)
-
-            # loss = loss_fn(yhat, y.long())
-            # loss = loss_fn(yhat, y.long()) + contrastiveLoss(list_y0, list_y1)
-            # if len(list_1) < len(list_0):
-            #     loss = loss_fn(yhat, y.long())+contrastiveLoss(list_0[0:len(list_1)],list_1)
-            # else:
-            #     loss = loss_fn(yhat, y.long())+contrastiveLoss(list_0, list_1[0:len(list_0)])
-            # if len(list_1) < len(list_0):
-            #     loss = loss_fn(yhat, y.long())+loss_fn2(list_0[0:len(list_1)],list_1)
-            # else:
-            #     loss = loss_fn(yhat, y.long())+loss_fn2(list_1[0:len(list_0)],list_0)
-            loss.backward()
-
-            # for name, parms in model.named_parameters():
-            #      print('-->name:', name, '-->grad_requirs:', parms.requires_grad,
-            #           ' -->grad_value:', parms.grad)
-            # scheduler.step(num_epochs)  # 余弦退火优化
-
-
-
-            # loss2.backward()
-            optimizer.step()
-            # optimizer2.step( )
-            optimizer.zero_grad()
-            # optimizer2.zero_grad()
-
-            # y_train_plot = [i + 1 for i in y]
-            # viz.scatter(X=yhat, Y=y_train_plot, win='Train_Scatter',
-            #             opts=dict(marksize=1, legend=["negative", "neural",
-            #                                           "positive"]),
-            #             update='append')
-            return loss.item(), loss2.item(),acc
-
-        return train_step
-
-    # def train(self, train_data, train_label, test_data, test_label, learning_rate, num_epochs, cv_type):
-    #
-    #     print('Avaliable device:' + str(torch.cuda.get_device_name(torch.cuda.current_device())))
-    #     torch.manual_seed(42)
-    #     torch.backends.cudnn.deterministic = True
-    #     # Train and validation loss
-    #     losses = []
-    #     accs = []
-    #
-    #     Acc_val = []
-    #     Loss_val = []
-    #     val_losses = []
-    #     val_acc = []
-    #
-    #     test_losses = []
-    #     test_acc = []
-    #     Acc_test = []
-    #
-    #     # hyper-parameter
-    #     learning_rate = learning_rate
-    #     num_epochs = num_epochs
-    #     # model = CNN_LSTM_DE(self.num_class, inputsize=62 * 200, hiden=self.hiden_node, dropout_rate=self.dropout, hiden2=self.hiden2,batch_size = self.batch_size).to(self.device)
-    #     # model = CNN_LSTM_FPZ(self.num_class, inputsize=1 * 200, hiden=self.hiden_node, dropout_rate=self.dropout,
-    #     #                     hiden2=self.hiden2, batch_size=self.batch_size).to(self.device)
-    #
-    #     model = CNN_LSTM_V2(self.num_class, inputsize=62 * 200, hiden=self.hiden_node, dropout_rate=self.dropout,
-    #                         hiden2=self.hiden2, batch_size=self.batch_size).to(self.device)
-    #
-    #     # model = ConvNet()
-    #     optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate, weight_decay=self.Lambda)
-    #     scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=60, eta_min=0)
-    #     # 等间隔调整学习率 StepLR   参数：
-    #     # •optimizer: 神经网络训练中使用的优化器，如optimizer=torch.optim.SGD(...)
-    #     # •step_size(int): 学习率下降间隔数，单位是epoch，而不是iteration.
-    #     # •gamma(float): 学习率调整倍数，默认为0.1
-    #     #
-    #     # •last_epoch(int): 上一个epoch数，这个变量用来指示学习率是否需要调整。当last_epoch符合设定的间隔时，就会对学习率进行调整；当为-1时，学习率设置为初始值。
-    #     loss_fn = nn.CrossEntropyLoss() + ContrastiveLoss(margin=30)
-    #
-    #     if torch.cuda.is_available():
-    #         model = model.to(self.device)
-    #         loss_fn = loss_fn.to(self.device)
-    #
-    #     train_step = self.make_train_step(model, loss_fn, optimizer, scheduler)
-    #
-    #     # load the data
-    #
-    #     # Dataloader for training process
-    #     train_data_loader = DataLoader(self.train_data_normal, batch_size=self.batch_size, shuffle=True,
-    #                                    drop_last=True)
-    #     val_data_loader = DataLoader(self.val_data_normal, batch_size=self.batch_size, shuffle=True, drop_last=True)
-    #     test_data_loader = DataLoader(self.test_data_normal, batch_size=self.batch_size, shuffle=True,
-    #                                   drop_last=True)
-    #
-    #     total_step = len(train_data_loader)
-    #
-    #     ######## Training process ########
-    #     Acc = []
-    #     acc_max = 0
-    #     patient = 0
-    #
-    #     for epoch in range(num_epochs):
-    #
-    #         loss_epoch = []
-    #         acc_epoch = []
-    #         for i, (x_batch, y_batch) in enumerate(train_data_loader):
-    #             x_batch = x_batch.to(self.device)
-    #             y_batch = y_batch.to(self.device)
-    #             loss, acc = train_step(x_batch, y_batch)
-    #             loss_epoch.append(loss)
-    #             acc_epoch.append(acc)
-    #
-    #         losses.append(sum(loss_epoch) / len(loss_epoch))
-    #         accs.append(sum(acc_epoch) / len(acc_epoch))
-    #         loss_epoch = []
-    #         acc_epoch = []
-    #         print('Epoch [{}/{}], Loss: {:.4f}, Acc: {:.4f}'
-    #               .format(epoch + 1, num_epochs, losses[-1], accs[-1]))
-    #
-    #         ######## Validation process ########
-    #         with torch.no_grad():
-    #             correct2 = 0
-    #             total = 0
-    #             for x_val, y_val in val_data_loader:
-    #                 x_val = x_val.to(self.device)
-    #                 y_val = y_val.to(self.device)
-    #
-    #                 model.eval()
-    #
-    #                 yhat = model(x_val)
-    #
-    #                 pred = yhat.max(1)[1]
-    #                 correct = (pred == y_val).sum()
-    #                 acc = correct.item() / len(pred)
-    #                 val_loss = loss_fn(yhat, y_val.long())
-    #                 val_losses.append(val_loss.item())
-    #                 val_acc.append(acc)
-    #
-    #                 # _, predicted = torch.max(yhat.data, 1)
-    #                 # total += y_val.size(0)
-    #                 # correct2 += (predicted == y_val).sum().item()
-    #
-    #             Acc_val.append(sum(val_acc) / len(val_acc))
-    #             Loss_val.append(sum(val_losses) / len(val_losses))
-    #             print('Evaluation Loss:{:.4f}, Acc: {:.4f}'
-    #                   .format(Loss_val[-1], Acc_val[-1]))
-    #             val_losses = []
-    #             val_acc = []
-    #         ######## early stop ########
-    #
-    #         Acc_es = Acc_val[-1]
-    #         if Acc_es > acc_max:
-    #             acc_max = Acc_es
-    #             patient = 0
-    #             print('----Model saved!----')
-    #             torch.save(model, 'max_model.pt')
-    #         else:
-    #             patient += 1
-    #         if patient > self.patient:
-    #             print('----Early stopping----')
-    #             self.stopepoch = epoch
-    #             break
-    #     scheduler.step()
-    #
-    #     ## 画图
-    #
-    #     x_trainloss = range(0, self.stopepoch + 1)
-    #     x_trainacc = range(0, self.stopepoch + 1)
-    #     y_trainloss = losses
-    #     y_trainacc = accs
-    #     plt.subplot(2, 1, 1)
-    #     plt.plot(x_trainloss, y_trainloss, 'o-')
-    #     plt.title('Train loss vs. epoches')
-    #     plt.ylabel('Train loss')
-    #     plt.subplot(2, 1, 2)
-    #     plt.plot(x_trainacc, y_trainacc, '.-')
-    #     plt.xlabel('Train Acc vs. epoches')
-    #     plt.ylabel('Train Acc')
-    #     plt.show()
-    #     plt.savefig("Train accuracy_loss.jpg")
-    #     x_valloss = range(0, self.stopepoch + 1)
-    #     x_valacc = range(0, self.stopepoch + 1)
-    #     y_valloss = Loss_val
-    #     y_valacc = Acc_val
-    #     plt.subplot(2, 1, 1)
-    #     plt.plot(x_valloss, y_valloss, 'o-')
-    #     plt.title('valloss vs. epoches')
-    #     plt.ylabel('val loss')
-    #     plt.subplot(2, 1, 2)
-    #     plt.plot(x_valacc, y_valacc, '.-')
-    #     plt.xlabel('val Acc vs. epoches')
-    #     plt.ylabel('val Acc')
-    #     plt.show()
-    #     plt.savefig("Val accuracy_loss.jpg")
-    #
-    #     ######## test process ########
-    #
-    #     model = torch.load('max_model.pt')
-    #
-    #     with torch.no_grad():
-    #         for x_test, y_test in test_data_loader:
-    #             x_test = x_test.to(self.device)
-    #             y_test = y_test.to(self.device)
-    #
-    #             model.eval()
-    #
-    #             yhat = model(x_test)
-    #             pred = yhat.max(1)[1]
-    #             correct = (pred == y_test).sum()
-    #             acc = correct.item() / len(pred)
-    #             test_loss = loss_fn(yhat, y_test.long())
-    #             test_losses.append(test_loss.item())
-    #             test_acc.append(acc)
-    #
-    #         print('Test Loss:{:.4f}, Acc: {:.4f}'
-    #               .format(sum(test_losses) / len(test_losses), sum(test_acc) / len(test_acc)))
-    #         Acc_test = (sum(test_acc) / len(test_acc))
-    #         test_losses = []
-    #         test_acc = []
-    #     # save the loss(acc) for plotting the loss(acc) curve
-    #     save_path = Path(os.getcwd())
-    #     if cv_type == "leave_one_session_out":
-    #         filename_callback = save_path / Path('_history_version2.hdf')
-    #         save_history = h5py.File(filename_callback, 'w')
-    #         save_history['acc'] = accs
-    #         save_history['loss'] = losses
-    #         save_history.close()
-    #     return Acc_test
-
-    def traink(self, train_data_normal, val_data_normal, learning_rate, num_epochs, cv_type):
-
-        print('Avaliable device:' + str(torch.cuda.get_device_name(torch.cuda.current_device())))
-        torch.manual_seed(42)
-        torch.backends.cudnn.deterministic = True
-        # Train and validation loss
-        losses = []
-        accs = []
-
-        Acc_val = []
-        Loss_val = []
-        val_losses = []
-        val_acc = []
-
-        test_losses = []
-        test_acc = []
-        Acc_test = []
-
-        # hyper-parameter
-        learning_rate = learning_rate
-        num_epochs = num_epochs
-
-        # model = CNN_LSTM_V2(self.num_class, inputsize=62 * 200, hiden=self.hiden_node, dropout_rate=self.dropout,
-        #                     hiden2=self.hiden2, batch_size=self.batch_size).to(self.device)
-
-    def objective(self, trial):
-        print('Avaliable device:' + str(torch.cuda.get_device_name(torch.cuda.current_device())))
-
-        torch.backends.cudnn.deterministic = True
-        losses = []
-        losses2 = []
-        accs = []
-
-        Acc_val = []
-        Loss_val = []
-        Loss2_val =[]
-        val_losses = []
-        val_acc = []
-
-        test_losses = []
-        test_acc = []
-        Acc_test = []
-
-        # model = Tsception_LSTM(self.num_class, inputsize=62 * 200, hiden=self.hiden_node, dropout_rate=self.dropout, hiden2=self.hiden2,batch_size = self.batch_size).to(self.device)
-        # lr = trial.suggest_float("lr",0.000075,0.0001, log=True)
-        lr = trial.suggest_float("lr", 1e-6, 1e-3, log=True)
-        weight_decay = trial.suggest_float("weight_decay", 1e-5, 1e-1, log=True)
-        self.dropout = trial.suggest_uniform('dropout_rate', 0.4, 1.0)
-        seed = trial.suggest_int('seed', 1, 200)
-        self.loss_lambda = 1
-        # lr = 0.000225
-        # weight_decay = 0.000208
-        # self.dropout = 0.478
-        # lr = 5e-5
-        # weight_decay =1e-4
-        # self.dropout = 0.5
-        # seed = 89
-        torch.manual_seed(seed)
-        model = inception_se_Final(self.num_class, inputsize=62 * 200, hiden=self.hiden_node, dropout_rate=self.dropout,
-                                   hiden2=self.hiden2, batch_size=self.batch_size).to(self.device)
-        # model = inception_se_Final_v2(self.num_class, num_t=num_t, se=se, dropout_rate=self.dropout,hiden=self.hiden_node,
-        #                      batch_size=self.batch_size).to(self.device)
-        optimizer = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=weight_decay)
-        scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=60, eta_min=0)
-        # 等间隔调整学习率 StepLR   参数：
-        # •optimizer: 神经网络训练中使用的优化器，如optimizer=torch.optim.SGD(...)
-        # •step_size(int): 学习率下降间隔数，单位是epoch，而不是iteration.
-        # •gamma(float): 学习率调整倍数，默认为0.1
-        #
-        # •last_epoch(int): 上一个epoch数，这个变量用来指示学习率是否需要调整。当last_epoch符合设定的间隔时，就会对学习率进行调整；当为-1时，学习率设置为初始值。
-        loss_fn = nn.CrossEntropyLoss()
-        pairwise_loss = Pairwise_Loss()
-        if torch.cuda.is_available():
-            model = model.to(self.device)
-            loss_fn = loss_fn.to(self.device)
-            pairwise_loss = pairwise_loss.to(self.device)
-        train_step = self.make_train_step(model, loss_fn, pairwise_loss, optimizer, scheduler)
-
-        # load the data
-
-        # Dataloader for training process
-        # TODO: shuffle 改为TRUE
-        train_data_loader = DataLoader(self.train_data_normal, batch_size=self.batch_size, shuffle=False,
-                                       drop_last=True)
-        val_data_loader = DataLoader(self.val_data_normal, batch_size=self.batch_size, shuffle=False, drop_last=True)
-        test_data_loader = DataLoader(self.test_data_normal, batch_size=self.batch_size, shuffle=False,
-                                      drop_last=True)
-
-        total_step = len(train_data_loader)
-
-        ######## Training process ########
-        Acc = []
-        acc_max = 0
-        patient = 0
-        loss_min = 1000
-
-        for epoch in range(self.num_epochs):
-
-            loss_epoch = []
-            loss2_epoch = []
-            acc_epoch = []
-            for i, (x_batch, y_batch) in enumerate(train_data_loader):
-                x_batch = x_batch.to(self.device)
-                y_batch = y_batch.to(self.device)
-                loss,loss2,acc = train_step(x_batch, y_batch)
-                loss_epoch.append(loss)
-                loss2_epoch.append(loss2)
-                acc_epoch.append(acc)
-            losses.append(sum(loss_epoch) / len(loss_epoch))
-            losses2.append(sum(loss2_epoch) / len(loss2_epoch))
-            accs.append(sum(acc_epoch) / len(acc_epoch))
-            loss_epoch = []
-            acc_epoch = []
-            print('Epoch [{}/{}], Loss: {:.4f},pairwise_loss: {:.4f},Acc: {:.4f}'
-                  .format(epoch + 1, self.num_epochs, losses[-1],losses2[-1],accs[-1]))
-
-            ######## Validation process ########
-            with torch.no_grad():
-                correct2 = 0
-                total = 0
-                val_losses2 = []
-                for x_val, y_val in val_data_loader:
-                    x_val = x_val.to(self.device)
-                    y_val = y_val.to(self.device)
-
-                    model.eval()
-
-                    yhat_pair, yhat = model(x_val)
-
-                    pred = yhat.max(1)[1]
-                    correct = (pred == y_val).sum()
-                    acc = correct.item() / len(pred)
-                    val_loss = loss_fn(yhat, y_val.long())
-                    val_loss2 = pairwise_loss(yhat_pair,y_val)
-                    val_loss = val_loss+self.loss_lambda *val_loss2
-                    val_losses.append(val_loss.item())
-                    # val_losses2.append(val_loss2.item())
-                    val_acc.append(acc)
-
-                    # _, predicted = torch.max(yhat.data, 1)
-                    # total += y_val.size(0)
-                    # correct2 += (predicted == y_val).sum().item()
-
-                Acc_val.append(sum(val_acc) / len(val_acc))
-                Loss_val.append(sum(val_losses) / len(val_losses))
-                # Loss2_val.append(sum(val_losses2) / len(val_losses2))
-                trial.report(Acc_val[-1], epoch)
-                print('Evaluation Loss:{:.4f}, Acc: {:.4f}'
-                      .format(Loss_val[-1], Acc_val[-1]))
-                val_losses = []
-                val_losses2 = []
-                val_acc = []
-            ######## early stop ########
-
-            Acc_es = Acc_val[-1]
-            Loss_es = Loss_val[-1]
-            # viz.line(Y=np.column_stack((losses[-1], Loss_val[-1])), X=[epoch], win='loss', opts=dict(legend=name_loss,
-            #                                                                                          title='loss',
-            #                                                                                          xlabel='epoch',
-            #                                                                                          ylabel='Loss'),
-            #          update=None if epoch == 0 else 'append')
-            # viz.line(Y=np.column_stack((accs[-1], Acc_val[-1])), X=[epoch], win='acc',
-            #          opts=dict(legend=name_acc, title='ACC', xlabel='epoch', ylabel='ACC'),
-            #          update=None if epoch == 0 else 'append')
-            # y_plot = [i + 1 for i in y_val]
-            # viz.scatter(X=yhat, Y=y_plot, win='Val_Scatter',
-            #             opts=dict(marksize=1, legend=["negative", "neural",
-            #                                           "positive"]),
-            #             update='append')
-            # plt.figure()
-            # plt.title('Scatter',fontsize=24)
-            # idx_1 = np.find(y_plot == 1)
-            # idx_2 = np.find(y_plot == 2)
-            # idx_3 = np.find(y_plot == 3)
-            # p1 = plt.scatter(yhat[idx_1, 1], yhat[idx_1, 0], marker='x', color='m', label='1', s=30)
-            # p2 = plt.scatter(yhat[idx_2, 1], yhat[idx_2, 0], marker='+', color='c', label='2', s=50)
-            # p3 = plt.scatter(yhat[idx_3, 1], yhat[idx_3, 0], marker='o', color='r', label='3', s=15)
-            # plt.scatter(x=yhat, y=y_plot, marker='plus',c=['r','g','b'])
-            # plt.savefig(r"Scatter" + str(datetime.datetime.now().strftime("%Y-%m-%d")) + '.jpg')
-            # plt.show()
-            if Loss_es < loss_min:
-                loss_min = Loss_es
-                patient = 0
-                print('----Model saved!----')
-                torch.save(model, 'max_model_2.pt')
-            else:
-                # torch.save(model, 'max_model_2.pt')
-                patient += 1
-            if patient > self.patient:
-                print('----Early stopping----')
-                self.stopepoch = epoch
-                break
-        scheduler.step()
-
-        ## 画图
-
-        x_trainloss = range(0, self.stopepoch + 1)
-        x_trainacc = range(0, self.stopepoch + 1)
-        y_trainloss = losses
-        y_trainacc = accs
-        plt.figure()
-        plt.subplot(2, 1, 1)
-        plt.plot(x_trainloss, y_trainloss, 'o-')
-        plt.title('Train loss vs. epoches')
-        plt.ylabel('Train loss')
-        plt.subplot(2, 1, 2)
-        plt.plot(x_trainacc, y_trainacc, '.-')
-        plt.xlabel('Train Acc vs. epoches')
-        plt.ylabel('Train Acc')
-        plt.savefig(r"Train accuracy_loss_" + str(datetime.datetime.now().strftime("%Y-%m-%d")) + '.jpg')
-        # plt.show()
-        x_valloss = range(0, self.stopepoch + 1)
-        x_valacc = range(0, self.stopepoch + 1)
-        y_valloss = Loss_val
-        y_valacc = Acc_val
-        plt.figure()
-        plt.subplot(2, 1, 1)
-        plt.plot(x_valloss, y_valloss, 'o-')
-        plt.title('valloss vs. epoches')
-        plt.ylabel('val loss')
-        plt.subplot(2, 1, 2)
-        plt.plot(x_valacc, y_valacc, '.-')
-        plt.xlabel('val Acc vs. epoches')
-        plt.ylabel('val Acc')
-        plt.savefig(r"Val accuracy_loss_" + str(datetime.datetime.now().strftime("%Y-%m-%d")) + '.jpg')
-
-        ######## test process ########
-
-        model = torch.load('max_model_2.pt')
-        time_start = datetime.datetime.now()
-        with torch.no_grad():
-            for x_test, y_test in test_data_loader:
-                x_test = x_test.to(self.device)
-                y_test = y_test.to(self.device)
-
-                model.eval()
-
-                yhat_pair, yhat = model(x_test)
-                pred = yhat.max(1)[1]
-                correct = (pred == y_test).sum()
-                acc = correct.item() / len(pred)
-                test_loss = loss_fn(yhat, y_test.long())
-                test_loss2 = pairwise_loss(yhat_pair,y_test)
-                test_loss = test_loss+self.loss_lambda * test_loss2
-                test_losses.append(test_loss.item())
-                test_acc.append(acc)
-
-            print('Test Loss:{:.4f}, Acc: {:.4f}'
-                  .format(sum(test_losses) / len(test_losses), sum(test_acc) / len(test_acc)))
-            print('precision score is ',
-                  precision_score(y_test.cpu(), pred.cpu(), average="micro"))  # 输出多分类问题的精准率的大小（需要设定average参数）
-            print('recall score is ', recall_score(y_test.cpu(), pred.cpu(), average="micro"))  # 输出多分类问题的召回率
-            print('confusion martix is\n', confusion_matrix(y_test.cpu(), pred.cpu()))  # 输出混淆矩阵
-            Loss_test = sum(test_losses) / len(test_losses)
-            Acc_test = (sum(test_acc) / len(test_acc))
-            test_losses = []
-            test_acc = []
-        # save the loss(acc) for plotting the loss(acc) curve
-        save_path = Path(os.getcwd())
-        cv_type = "leave_one_session_out"
-        if cv_type == "leave_one_session_out":
-            filename_callback = save_path / Path('_history_version2.hdf')
-            save_history = h5py.File(filename_callback, 'w')
-            save_history['acc'] = accs
-            save_history['loss'] = losses
-            save_history.close()
-        file = open("result_k_fold.txt", 'a')
-        file.write("\n" + str(datetime.datetime.now()) +
-                   "\n ** 网络结构 **： " + str(self.model) +
-                   "\n ** 验证集准确率 **：" + str(Acc_val[-1]) +
-                   "\n ** 测试集准确率 **:" + str(Acc_test) +
-                   "\n ** 程序单次测试时间 **" + str(datetime.datetime.now() - time_start) +
-                   "\n ** 实验人： 龚鸣  **"
-                   '\n')
-        self.losses = losses
-        self.Loss_val = Loss_val
-        self.accs = accs
-        self.ACC_val = Acc_val
-        best_acc = 0
-        best_acc = max(best_acc, Acc_val[-1])
-        return best_acc
-
     def k_fold(self, k, X_train, y_train):
 
         train_loss_sum, valid_loss_sum = 0, 0
@@ -948,10 +339,10 @@ class TrainModel():
             print('*' * 25, '第', i + 1, '折', '*' * 25)
             train_data, train_label, val_data, val_label = self.get_kfold_data(k, i, X_train,
                                                                                y_train)  # 获取k折交叉验证的训练和验证数据
-            desire_shape = [1, 62, 205]
+            desire_shape = [1, 14, 512]
             self.train_data_normal = RawEEGDataset(train_data, train_label, desire_shape)
             self.val_data_normal = RawEEGDataset(val_data, val_label, desire_shape)
-            self.test_data_normal = RawEEGDataset(self.test_data, self.test_label, desire_shape)
+
             # 每份数据进行训练
             # train_loss, val_loss, train_acc, val_acc = self.traink(self.train_data_normal, self.val_data_normal,
             #                                                        learning_rate=self.learning_rate,
@@ -991,9 +382,337 @@ class TrainModel():
         print('average valid loss:{:.4f}, average valid accuracy:{:.3f}%'.format(valid_loss_sum / k, valid_acc_sum / k))
 
 
+    def regulization(self, model, Lambda):
+        w = torch.cat([x.view(-1) for x in model.parameters()])
+        err = Lambda * torch.sum(torch.abs(w))
+        return err
+
+    def regulization2(self, model, Lambda):
+        w = torch.cat([x.view(-1) for x in model.parameters()])
+        err = Lambda * torch.sqrt_(torch.sum(w ** 2))
+        return err
+
+    def make_train_step(self, model, loss_fn, pairwise_loss, optimizer, scheduler):
+        def train_step(x, y):
+            model.train()
+            yhat_pair, yhat = model(x)
+            pred = yhat.max(1)[1]
+            correct = (pred == y).sum()
+            acc = correct.item() / len(pred)
+            # L1 regularization
+            optimizer.zero_grad()
+            loss_r = self.regulization2(model, self.Lambda)
+            # yhat is in one-hot representation;
+            loss = loss_fn(yhat, y.long()) + loss_r
+            loss.backward()
+            # for name, parms in model.named_parameters():
+            #      print('-->name:', name, '-->grad_requirs:', parms.requires_grad,
+            #           ' -->grad_value:', parms.grad)
+            # scheduler.step()  # 余弦退火优化
+            # loss2.backward()
+            optimizer.step()
+            # optimizer2.step( )
+
+            # optimizer2.zero_grad()
+
+            # y_train_plot = [i + 1 for i in y]
+            # viz.scatter(X=yhat, Y=y_train_plot, win='Train_Scatter',
+            #             opts=dict(marksize=1, legend=["negative", "neural",
+            #                                           "positive"]),
+            #             update='append')
+            return loss.item(),acc
+
+        return train_step
+
+    def traink(self, train_data_normal, val_data_normal, learning_rate, num_epochs, cv_type):
+
+        print('Avaliable device:' + str(torch.cuda.get_device_name(torch.cuda.current_device())))
+        torch.manual_seed(42)
+        torch.backends.cudnn.deterministic = True
+        # Train and validation loss
+        losses = []
+        accs = []
+
+        Acc_val = []
+        Loss_val = []
+        val_losses = []
+        val_acc = []
+
+        test_losses = []
+        test_acc = []
+        Acc_test = []
+
+        # hyper-parameter
+        learning_rate = learning_rate
+        num_epochs = num_epochs
+
+        # model = CNN_LSTM_V2(self.num_class, inputsize=62 * 200, hiden=self.hiden_node, dropout_rate=self.dropout,
+        #                     hiden2=self.hiden2, batch_size=self.batch_size).to(self.device)
+
+    def objective(self, trial):
+        print('Avaliable device:' + str(torch.cuda.get_device_name(torch.cuda.current_device())))
+
+        torch.backends.cudnn.deterministic = True
+        losses = []
+        accs = []
+
+        Acc_val = []
+        Loss_val = []
+        val_losses = []
+        val_acc = []
+
+        lr = trial.suggest_float("lr", 1e-5, 1e-3, log=True)
+        weight_decay = trial.suggest_float("weight_decay", 1e-6, 1e-2, log=True)
+        self.dropout = trial.suggest_uniform('dropout_rate', 0.5, 0.8)
+        seed = trial.suggest_int('seed', 1, 200)
+        self.loss_lambda = 1
+        # lr = 8e-6
+        # weight_decay = 1e-8
+        # self.dropout = 0.2
+        # lr = 1e-4
+        # weight_decay =1e-4
+        # self.dropout = 0.7
+        # seed = 89
+        torch.manual_seed(seed)
+        model = inception_se_Final(self.num_class, inputsize=62 * 200, hiden=self.hiden_node, dropout_rate=self.dropout,
+                                   hiden2=self.hiden2, batch_size=self.batch_size).to(self.device)
+        optimizer = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=weight_decay)
+        scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=60, eta_min=0)
+        # 等间隔调整学习率 StepLR   参数：
+        # •optimizer: 神经网络训练中使用的优化器，如optimizer=torch.optim.SGD(...)
+        # •step_size(int): 学习率下降间隔数，单位是epoch，而不是iteration.
+        # •gamma(float): 学习率调整倍数，默认为0.1
+        #
+        # •last_epoch(int): 上一个epoch数，这个变量用来指示学习率是否需要调整。当last_epoch符合设定的间隔时，就会对学习率进行调整；当为-1时，学习率设置为初始值。
+        loss_fn = nn.CrossEntropyLoss()
+        pairwise_loss = Pairwise_Loss()
+        if torch.cuda.is_available():
+            model = model.to(self.device)
+            loss_fn = loss_fn.to(self.device)
+            self.loss_fn = loss_fn
+            pairwise_loss = pairwise_loss.to(self.device)
+        train_step = self.make_train_step(model, loss_fn, pairwise_loss, optimizer, scheduler)
+
+        # load the data
+        # Dataloader for training process
+        # TODO: shuffle 改为TRUE
+        train_data_loader = DataLoader(self.train_data_normal, batch_size=self.batch_size, shuffle=True,
+                                       drop_last=True)
+        val_data_loader = DataLoader(self.val_data_normal, batch_size=self.batch_size, shuffle=True, drop_last=True)
+
+
+        ######## Training process ########
+        Acc = []
+        acc_max = 0
+        patient = 0
+        loss_min = 1000
+
+        for epoch in range(self.num_epochs):
+
+            loss_epoch = []
+
+            acc_epoch = []
+            for i, (x_batch, y_batch) in enumerate(train_data_loader):
+                x_batch = x_batch.to(self.device)
+                y_batch = y_batch.to(self.device)
+                loss,acc = train_step(x_batch, y_batch)
+                loss_epoch.append(loss)
+                acc_epoch.append(acc)
+            losses.append(sum(loss_epoch) / len(loss_epoch))
+            accs.append(sum(acc_epoch) / len(acc_epoch))
+            loss_epoch = []
+            acc_epoch = []
+            print('Epoch [{}/{}], Loss: {:.4f},Acc: {:.4f}'
+                  .format(epoch + 1, self.num_epochs, losses[-1],accs[-1]))
+
+            ######## Validation process ########
+            with torch.no_grad():
+                correct2 = 0
+                total = 0
+                val_losses2 = []
+                for x_val, y_val in val_data_loader:
+                    x_val = x_val.to(self.device)
+                    y_val = y_val.to(self.device)
+
+                    model.eval()
+                    yhat_pair, yhat = model(x_val)
+
+                    pred = yhat.max(1)[1]
+                    correct = (pred == y_val).sum()
+                    acc = correct.item() / len(pred)
+                    val_loss = loss_fn(yhat, y_val.long())
+                    val_losses.append(val_loss.item())
+                    # val_losses2.append(val_loss2.item())
+                    val_acc.append(acc)
+
+                    # _, predicted = torch.max(yhat.data, 1)
+                    # total += y_val.size(0)
+                    # correct2 += (predicted == y_val).sum().item()
+
+                Acc_val.append(sum(val_acc) / len(val_acc))
+                Loss_val.append(sum(val_losses) / len(val_losses))
+                # Loss2_val.append(sum(val_losses2) / len(val_losses2))
+                trial.report(Acc_val[-1], epoch)
+                print('Evaluation Loss:{:.4f}, Acc: {:.4f}'
+                      .format(Loss_val[-1], Acc_val[-1]))
+                val_losses = []
+                val_losses2 = []
+                val_acc = []
+            ######## early stop ########
+
+            Acc_es = Acc_val[-1]
+            Loss_es = Loss_val[-1]
+            if Loss_es < loss_min:
+                loss_min = Loss_es
+                patient = 0
+                print('----Model saved!----')
+                # torch.save(model.state_dict(), 'state_dict')
+                file = open("result_acc.txt", 'r')
+                lines = file.readlines()
+                file = open("result_acc.txt", 'w')
+                for line in lines:
+                    acc = float(line[12:])
+                    if Acc_es> acc:
+                        # torch.save(model, 'max_model_2.pt')
+                        # torch.save({'/state_dict': model.state_dict(), 'use_se': True}, 'BEST_checkpoint'+str(Acc_es)+'.tar',
+                        #        _use_new_zipfile_serialization=False)
+                        file.write("best acc is:" + str(Acc_es))
+                        file.close()
+                        torch.save(model.state_dict(),'BEST_checkpoint' + str(Acc_es) + '.tar')
+
+                    else:
+                        file.write(line)
+                        file.close()
+                        continue
+                # torch.save(model, r'/max_model_2.pt')
+            else:
+                # torch.save(model, 'max_model_2.pt')
+                # torch.save({'state_dict':model.state_dict(),'use_se': True},'BEST_checkpoint.tar',_use_new_zipfile_serialization=False)
+                # def convert_model(model, input=torch.tensor(torch.rand(size=(1, 3, 112, 112)))):
+                # model2 = torch.jit.trace(model,torch.tensor(torch.rand(size=(1, 1, 14, 256))).cuda())
+                # torch.jit.save(model2, 'model_test.tjm')
+                patient += 1
+            if patient > self.patient:
+                print('----Early stopping----')
+                self.stopepoch = epoch
+                break
+        scheduler.step()
+
+        ## 画图
+
+        x_trainloss = range(0, self.stopepoch + 1)
+        x_trainacc = range(0, self.stopepoch + 1)
+        y_trainloss = losses
+        y_trainacc = accs
+        plt.figure()
+        plt.subplot(2, 1, 1)
+        plt.plot(x_trainloss, y_trainloss, 'o-')
+        plt.title('Train loss vs. epoches')
+        plt.ylabel('Train loss')
+        plt.subplot(2, 1, 2)
+        plt.plot(x_trainacc, y_trainacc, '.-')
+        plt.xlabel('Train Acc vs. epoches')
+        plt.ylabel('Train Acc')
+        plt.savefig(r"Train accuracy_loss_" + str(datetime.datetime.now().strftime("%Y-%m-%d")) + '.jpg')
+        # plt.show()
+        x_valloss = range(0, self.stopepoch + 1)
+        x_valacc = range(0, self.stopepoch + 1)
+        y_valloss = Loss_val
+        y_valacc = Acc_val
+        plt.figure()
+        plt.subplot(2, 1, 1)
+        plt.plot(x_valloss, y_valloss, 'o-')
+        plt.title('valloss vs. epoches')
+        plt.ylabel('val loss')
+        plt.subplot(2, 1, 2)
+        plt.plot(x_valacc, y_valacc, '.-')
+        plt.xlabel('val Acc vs. epoches')
+        plt.ylabel('val Acc')
+        plt.savefig(r"Val accuracy_loss_" + str(datetime.datetime.now().strftime("%Y-%m-%d")) + '.jpg')
+        # save the loss(acc) for plotting the loss(acc) curve
+        save_path = Path(os.getcwd())
+        cv_type = "leave_one_session_out"
+        if cv_type == "leave_one_session_out":
+            filename_callback = save_path / Path('_history_version2.hdf')
+            save_history = h5py.File(filename_callback, 'w')
+            save_history['acc'] = accs
+            save_history['loss'] = losses
+            save_history.close()
+        # file = open("result_k_fold.txt", 'a')
+        # file.write("\n" + str(datetime.datetime.now()) +
+        #            "\n ** 网络结构 **： " + str(self.model) +
+        #            "\n ** 验证集准确率 **：" + str(Acc_val[-1]) +
+        #            "\n ** 测试集准确率 **:" + str(Acc_test) +
+        #            "\n ** 程序单次测试时间 **" + str(datetime.datetime.now() - time_start) +
+        #            "\n ** 实验人： 龚鸣  **"
+        #            '\n')
+        # self.losses = losses
+        # self.Loss_val = Loss_val
+        # self.accs = accs
+        # self.ACC_val = Acc_val
+        best_acc = 0
+        best_acc = max(best_acc, Acc_val[-1])
+        return best_acc
+
+
+def test(device,test_data,test_label):
+    ######## test process ########
+    model = inception_se_Final(train.num_class, inputsize=62 * 200, hiden=train.hiden_node, dropout_rate=train.dropout,
+                               hiden2=train.hiden2, batch_size=train.batch_size).to(train.device)
+    test_losses = []
+    test_acc = []
+    desire_shape = [1, 14, 512]
+    loss_fn = nn.CrossEntropyLoss()
+    if torch.cuda.is_available():
+        model = model.to(device)
+        loss_fn = loss_fn.to(device)
+    test_data_normal = RawEEGDataset(test_data, test_label, desire_shape)
+    test_data_loader = DataLoader(test_data_normal, batch_size=train.batch_size, shuffle=True,
+                                  drop_last=True)
+    print(os.getcwd())
+    file_name = new_file(os.getcwd())
+    if file_name.endswith('.tar'):
+        torch.backends.cudnn.deterministic = True
+        # model = torch.load('max_model_2.pt')
+        state_dict = torch.load(file_name)
+        model.load_state_dict(state_dict=state_dict)
+        model.to(device)
+        # model_dict = torch.load(file_name)
+        # model.load_state_dict(model_dict)
+
+
+    with torch.no_grad():
+        for x_test, y_test in test_data_loader:
+            x_test = x_test.to(device)
+            y_test = y_test.to(device)
+
+            model.eval()
+            yhat_pair, yhat = model(x_test)
+            pred = yhat.max(1)[1]
+            correct = (pred == y_test).sum()
+            acc = correct.item() / len(pred)
+            test_loss = loss_fn(yhat, y_test.long())
+            test_losses.append(test_loss.item())
+            test_acc.append(acc)
+
+        print('Test Loss:{:.4f}, Acc: {:.4f}'
+              .format(sum(test_losses) / len(test_losses), sum(test_acc) / len(test_acc)))
+        print('precision score is ',
+              precision_score(y_test.cpu(), pred.cpu(), average="micro"))  # 输出多分类问题的精准率的大小（需要设定average参数）
+        print('recall score is ', recall_score(y_test.cpu(), pred.cpu(), average="micro"))  # 输出多分类问题的召回率
+        print('confusion martix is\n', confusion_matrix(y_test.cpu(), pred.cpu()))  # 输出混淆矩阵
+
 if __name__ == "__main__":
     train = TrainModel()
-    train.load_data(r'D:\python\emotion_classification\classification\lib\data_split.hdf')
+    os.chdir('split_data')
+    for i in os.listdir('.'):
+        if not i.endswith('.hdf'):
+            continue
+        print(os.getcwd()+'\\'+i)
+        train.load_data(os.getcwd() +'\\' +i)
+    os.chdir(os.path.pardir)
+    os.makedirs('result', exist_ok=True)
+    os.chdir('result')
     # train.set_parameter(cv='K_fold',
     #                     model='CNN_LSTM_V2',
     #                     number_class=3,
@@ -1016,15 +735,15 @@ if __name__ == "__main__":
                         random_seed=42,
                         learning_rate=0.00008,
                         epoch=1500,
-                        batch_size=1,
-                        dropout=0.7,
-                        hiden_node=64,
+                        batch_size=512,
+                        dropout=0.1,
+                        hiden_node=32,
                         hiden2=32,
                         patient=25,
                         num_T=9,
                         num_S=6,
                         Lambda=0.001)
 
-    train.k_fold(k=2, X_train=train.data, y_train=train.label)
-
+    train.k_fold(k=10, X_train=train.data, y_train=train.label)
+    test(train.device,train.test_data,train.test_label)
     # train.train(train_data=train.train_data,train_label=train.train_label,test_data=train.test_data,test_label=train.test_label,learning_rate=train.learning_rate,num_epochs=train.num_epochs,cv_type=train.cv)
