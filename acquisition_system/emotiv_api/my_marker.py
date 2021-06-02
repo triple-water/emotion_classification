@@ -4,8 +4,8 @@ import time
 
 user = {
     "license": "30a7df02-37ba-462c-8b75-feedfee8c815",
-    "client_id": "mm6xyIddErBCPW8lZFlAlG5k0f771wTzuvDT37fC",
-    "client_secret": "AmGvdjxk17EgLOwYbmJosCch0JfXevUNDSc3LPne0gKbtKFbO89K5x5nphIQd6JJ5yewvHiXhhSdoHUZd7uceXZeHsdXdoZQlWUsMqEnUltome8bVKScgBRNZEQOpZ6D",
+    "client_id": "icAFfErGaI0GbCU8T2IeIVkjaWb4YNKrPg2GgOwK",
+    "client_secret": "2SRPRAKqE9ZIUUCXVBTydwi2eheuqkjzSmj4heRDnTTce5v1JPo1sosSgOiRNM4IUTsk6DXrHA2xcgQgCuoAIkekbtnye79OjCb0Q15BTLpsL3OWXbtD9Ot4JtDbDzmB",
     "debit": 100
 }
 

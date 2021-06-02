@@ -7,127 +7,113 @@
     <script src="{{ url_for('static',filename='../lib/jquery.min.js') }}"></script>
     <script src="{{ url_for('static',filename='../lib/jquery.params.js') }}"></script>
     <script src="{{ url_for('static',filename='../lib/bootstrap.min.js') }}"></script>
-    <script src="{{ url_for('static',filename='../lib/midi.js') }}"></script>
+<!--        <script src="{{ url_for('static',filename='../lib/midi.js') }}"></script>-->
+    <script type='text/javascript' src='//www.midijs.net/lib/midi.js'></script>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='../lib/bootstrap.min.css') }}">
-    <!--    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='../css/main.css') }}">-->
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='../css/visualization.css') }}">
 </head>
 <body>
 <div class="page-header">
     <h1 align="center">人人都是贝多芬</h1>
 </div>
-<div id="get_emotion" class="bs-example"><input type="button" class="btn btn-primary btn-lg " name="btnPlay"
-                                                id="btnPlay" value="start"></div>
-<!--<div id="logo">-->
-<!--    <img id="logo_gif" src="source/music.gif">-->
-<!--</div>-->
-<!--<div id="control_button_div" class="bs-example"><input type="button" class="btn btn-primary btn-lg " name="btnPlay"-->
-<!--                                                       id="btnPlay" value="start"></div>-->
-<!--<div id="audio_div" style="background: #FFFFFF">-->
-<!--    <audio id="audio1" controls="controls"></audio>-->
-<!--</div>-->
-<!--<div id="video_div" style="background: #FFFFFF">-->
-<!--    <video id="video1" muted src="source/test.mp4">-->
-<!--        您的浏览器不支持 video 标签。-->
-<!--    </video>-->
-<!--</div>-->
+<div id="logo">
+    <img id="logo_gif" src="../source/picture/music.gif">
+</div>
+<div>
+    <!--    <a href="#" id="clickMe" onClick="MIDIjs.play('../source/audio/generated.mid');"></a>-->
+    <a id="click_me" href="#" onClick=start_play()>test</a>
+</div>
+
+<!--<div id="get_emotion" class="bs-example"><input type="button" class="btn btn-primary btn-lg " name="btnPlay"-->
+<!--                                                id="btnPlay" value="start"></div>-->
 <div id="zuobiao">
     <img src="../source/picture/zuobiao.png" id="canvas_bgp" height="480px" , width="560px"/>
     <canvas id="theCanvas" width="400" height="400"></canvas>
 </div>
-<!--<div>-->
-<!--    <img src="source/1.png" class="emotion" id="pic_1"/>-->
-<!--    <img src="source/2.png" class="emotion" id="pic_2"/>-->
-<!--    <img src="source/3.png" class="emotion" id="pic_3"/>-->
-<!--    <img src="source/4.png" class="emotion" id="pic_4"/>-->
-<!--</div>-->
+<div>
+    <!--    <img src="source/1.png" class="emotion" id="pic_1"/>-->
+    <!--    <img src="source/2.png" class="emotion" id="pic_2"/>-->
+    <img src="../source/picture/3.png" class="emotion" id="pic_3"/>
+    <img src="../source/picture/4.png" class="emotion" id="pic_4"/>
+</div>
 
-<!-- <canvas id="theCanvas" width="400" height="400"></canvas> -->
 <script type="text/javascript">
-    // var i2 = 0;
-    // 哀 怒 乐 喜
-    // x2_arr = [100, 150, 260, 240];
-    // y2_arr = [280, 130, 150, 280];
-    // x2_arr = [120, 70, 80, 130, 180, 220,240];
-    // y2_arr = [280, 290, 310, 340, 345, 300, 280];
-
-    var x = 0;
-    var y = 0;
+    // 17 155 293
+    var x = -10;
+    var y = 247;
+    var music_name = ""
     var music_base_path = "../source/audio/"
 
     $(window).load(function(){
-     setInterval("request_emotion()",1000);
-     setInterval("request_music()",10000);
+    request_music_emotion();
+    setInterval("request_music_emotion()", 60000);
     });
 
-    // $("#get_emotion").click(function(){
-    //    start_request()
-    //    setInterval("start_request()",1000);
-    //    });
-
-    function request_music(){
-        $.ajax({
-            type : "get",
-            async : false, //同步请求
-            url : "/music",
-            timeout:1000,
-            success:function(data){
-                if(parseInt(data["code"])==200){
-                    music_path = music_base_path+data["music_name"]
-                    alert(music_path)
-                    }
-                }
-            // error:function() {
-               //alert("失败，请稍后再试！");
-               // }
-        });
+    function start_midi(){
+        MIDIjs.play(music_base_path + music_name);
     }
 
-    function request_emotion(){
-        // var data = {type:1};
+    function start_play() {
+     console.log(music_base_path + music_name)
+     MIDIjs.get_duration(music_base_path + music_name, function(seconds) { console.log("Duration: " + seconds);} )
+     MIDIjs.play(music_base_path + music_name);
+     console.log("play music");
+     }
+
+    function request_music_emotion(){
         $.ajax({
             type : "get",
             async : false,
-            url : "/emotion",
-             // data : data,
+            url : "/emotion_music",
             timeout:1000,
             success:function(data){
-                if(parseInt(data["code"]) == 200){
-                    x = data["x"]
-                    y = data["y"]
-                    }
+                music_name = data["music"]
+                var e = document.createEvent("MouseEvents");
+                e.initEvent("click", true, true);
+                document.getElementById("click_me").dispatchEvent(e);
+                x = data["emotion"];
+                console.log(x)
+                move()
                 }
             // error:function() {
                //alert("失败，请稍后再试！");
                // }
         });
     }
+
+
 
     function move() {
         let oCanvas = document.getElementById("theCanvas");
         let content = oCanvas.getContext("2d");
         var img = new Image();
-        img.src = "source/zuobiao.png";
+        img.src = "../source/picture/zuobiao.png";
         content.clearRect(0, 0, 400, 400);
         content.beginPath();
-        x2 = x2_arr[i2];
-        y2 = y2_arr[i2];
-        content.moveTo(x2, y2);
-        content.arc(x2, y2, 5, 0, 2 * Math.PI, false);
+
+        content.moveTo(parseInt(x), 200);
+        content.arc(x, y, 5, 0, 2 * Math.PI, false);
         content.fillStyle = "red";
         content.fill();
-        if (i2 <= 3) {
-           // $("#pic_3").css('display', 'block');
+        if (x<100 && x>0 ) {
+           $("#pic_3").css('display', 'block');
             // $("#pic_2").css('display', 'none');
            // $("#pic_4").css('display', 'none');
             // $("#pic_1").css('display', 'none');
-        } else if (i2 > 3) {
-            // $("#pic_4").css('display', 'block');
+        } else if (x>200) {
+            $("#pic_4").css('display', 'block');
            // $("#pic_3").css('display', 'none');
             // $("#pic_2").css('display', 'none');
             // $("#pic_1").css('display', 'none');
+        } else{
+            $("#pic_4").css('display', 'none');
+            $("#pic_3").css('display', 'none');
+            $("#pic_2").css('display', 'none');
+            $("#pic_1").css('display', 'none');
         }
     }
+
 </script>
+
 </body>
 </html>
