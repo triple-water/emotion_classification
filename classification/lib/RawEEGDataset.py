@@ -14,7 +14,7 @@ class RawEEGDataset(torch.utils.data.Dataset):
         feature = F.normalize(torch.from_numpy(self.feature_list[index]).float(), p=2, dim=1)
         # feature = feature[:,np.newaxis,:] # 改变这里可以改输入维度中1 的位置
         feature = feature[np.newaxis, :]
-        label = torch.tensor(self.label_list[index])
+        label = torch.tensor(self.label_list[index],dtype=torch.int32)
         return feature, label
 
     def __len__(self):

@@ -774,7 +774,7 @@ class inception_se_Final(nn.Module):
         # self.inception_window = [0.25, 0.125, 0.0625]
         self.sampling_rate = 256
         self.num_T = 6
-        self.channel = 62
+        self.channel = 14
         self.se = 2
         self.batch_size = batch_size
         self.dropout = dropout_rate
@@ -822,10 +822,10 @@ class inception_se_Final(nn.Module):
 
         self.BN_t = nn.BatchNorm2d(self.num_T)
 
-        self.lstm1 = nn.LSTM(input_size=60,num_layers=2, hidden_size=hiden,dropout=dropout_rate,bidirectional=True,batch_first=True)
+        self.lstm1 = nn.LSTM(input_size=72,num_layers=2, hidden_size=hiden,dropout=dropout_rate,bidirectional=True,batch_first=True)
 
         # self.lstm2 = nn.LSTM(input_size=hiden,num_layers=2,hidden_size=hiden2,dropout=dropout_rate,bidirectional=False)
-        self.fc1 = nn.Linear(25984,2048)
+        self.fc1 = nn.Linear(21184,2048)
         self.fc2 = nn.Linear(2048,128)
         self.fc3 = nn.Linear(128,num_classes)
     def forward(self,x):
@@ -838,7 +838,7 @@ class inception_se_Final(nn.Module):
         # x = self.conv(x)
         # x = F.relu(x)
         # x = F.max_pool2d(x,2)
-        y = self.Tception1(x)  # x: torch.Size([128,62,1,205])
+        y = self.Tception1(x)  # x: torch.Size([512,1,12,512])
         y_se = self.se_net(y)
         out = y * y_se.expand_as(y)
 
@@ -866,7 +866,7 @@ class inception_se_Final(nn.Module):
 
 
 
-        x = x.view(self.batch_size,203,-1) # x : 24 x 1 x 31 x 100  batch_size x num_t x channels x data
+        x = x.view(self.batch_size,331,-1) # x : 24 x 1 x 31 x 100  batch_size x num_t x channels x data
         # x = torch.squeeze(out)
         x,(hn,cn) = self.lstm1(x)
         # x,(hn,cn) = self.lstm2(x)
@@ -880,7 +880,119 @@ class inception_se_Final(nn.Module):
         x2 = self.fc3(x2)
         x2 = F.softmax(x2, dim=-1)
         return x, x2
+class inception_se_Final_liyanzhuo(nn.Module):
+    def __init__(self,num_classes,batch_size,inputsize,hiden,dropout_rate,hiden2):
+        super(inception_se_Final_liyanzhuo, self).__init__()
+        self.inception_window = [0.3, 0.25, 0.125, 0.0625, 0.03125]
+        # self.inception_window = [0.25, 0.125, 0.0625]
+        self.sampling_rate = 256
+        self.num_T = 6
+        self.channel = 14
+        self.se = 2
+        self.batch_size = batch_size
+        self.dropout = dropout_rate
+        self.se_net = nn.Sequential(
+            nn.AdaptiveAvgPool2d((1, 1)),
+            nn.Conv2d(self.num_T, self.num_T//self.se, kernel_size=1),
+            nn.ReLU(),
+            nn.Conv2d(self.num_T // self.se, self.num_T, kernel_size=1),
+            nn.Sigmoid()
+        )
+        # nn.BatchNorm2d(self.num_T//self.se),
+        # nn.BatchNorm2d(self.num_T),
+        self.Tception1 = nn.Sequential(
+            nn.Conv2d(1, self.num_T, kernel_size=(1, int(self.inception_window[0] * self.sampling_rate)), stride=1, padding=0),  # 2*3*3
+            nn.BatchNorm2d(self.num_T),
+            nn.ReLU(),
+            nn.AvgPool2d(kernel_size=(1, self.num_T), stride=(1, self.num_T)))
+        self.Tception2 = nn.Sequential(
+            nn.Conv2d(1, self.num_T, kernel_size=(1, int(self.inception_window[1] * self.sampling_rate)), stride=1, padding=0),  # 2*3*3*3*3*3
+            nn.BatchNorm2d(self.num_T),
+            nn.ReLU(),
+            nn.AvgPool2d(kernel_size=(1, self.num_T), stride=(1, self.num_T)))
+        self.Tception3 = nn.Sequential(
+            nn.Conv2d(1, self.num_T, kernel_size=(1, int(self.inception_window[2] * self.sampling_rate)), stride=1, padding=0),  # 3*3*3... *3 （12个）
 
+            nn.BatchNorm2d(self.num_T),
+            nn.ReLU(),
+            nn.AvgPool2d(kernel_size=(1, self.num_T), stride=(1, self.num_T)))
+        self.Tception4 = nn.Sequential(
+            nn.Conv2d(1, self.num_T, kernel_size=(1, int(self.inception_window[3] * self.sampling_rate)), stride=1,
+                      padding=0),
+            nn.BatchNorm2d(self.num_T),
+            nn.ReLU(),
+            nn.AvgPool2d(kernel_size=(1, self.num_T), stride=(1, self.num_T)))
+        self.Tception5 = nn.Sequential(
+            nn.Conv2d(1, self.num_T, kernel_size=(1, int(self.inception_window[4] * self.sampling_rate)), stride=1,
+                      padding=0),
+            nn.BatchNorm2d(self.num_T),
+            nn.ReLU(),
+            nn.AvgPool2d(kernel_size=(1, self.num_T), stride=(1,self.num_T)))
+        self.bottle_neck = Bottleneck(1,self.num_T)
+        self.conv1 = nn.Conv2d(1,self.num_T,kernel_size=(1,1),padding=0)
+        self.conv2 = nn.Conv2d(self.num_T,self.num_T, kernel_size=(3,3),padding=1)
+        self.conv3 = nn.Conv2d(self.num_T,1,kernel_size=(1,1),padding=0)
+
+        self.BN_t = nn.BatchNorm2d(self.num_T)
+
+        self.lstm1 = nn.LSTM(input_size=77,num_layers=2, hidden_size=hiden,dropout=dropout_rate,bidirectional=True,batch_first=True)
+
+        # self.lstm2 = nn.LSTM(input_size=hiden,num_layers=2,hidden_size=hiden2,dropout=dropout_rate,bidirectional=False)
+        self.fc1 = nn.Linear(13824,2048)
+        self.fc2 = nn.Linear(2048,128)
+        self.fc3 = nn.Linear(128,num_classes)
+    def forward(self,x):
+
+
+        # x = self.conv2(x)
+        # x = F.relu(x)
+        # x = F.max_pool2d(x,2)
+
+        # x = self.conv(x)
+        # x = F.relu(x)
+        # x = F.max_pool2d(x,2)
+        y = self.Tception1(x)  # x: torch.Size([128,62,1,205])
+        y_se = self.se_net(y)
+        out = y * y_se.expand_as(y)
+
+        y = self.Tception2(x)
+        y_se = self.se_net(y)
+        y = y * y_se.expand_as(y)
+        out = torch.cat((out, y), dim=-1)
+
+        y = self.Tception3(x)
+        y_se = self.se_net(y)
+        y = y * y_se.expand_as(y)
+        out = torch.cat((out, y), dim=-1)
+
+        # y = self.Tception4(x)
+        # y_se = self.se_net(y)
+        # y = y * y_se.expand_as(y)
+        # out = torch.cat((out, y), dim=-1)
+        #
+        # y = self.Tception5(x)
+        # y_se = self.se_net(y)
+        # y = y * y_se.expand_as(y)
+        # out = torch.cat((out, y), dim=-1)
+
+        x = self.BN_t(out)
+
+
+
+        x = x.view(self.batch_size,108,-1) # x : 24 x 1 x 31 x 100  batch_size x num_t x channels x data
+        # x = torch.squeeze(out)
+        x,(hn,cn) = self.lstm1(x)
+        # x,(hn,cn) = self.lstm2(x)
+        x = x.contiguous().view(x.size()[0], -1)
+
+
+        x2 = F.relu(self.fc1(x))
+        x2 = F.dropout(x2, self.dropout)
+        x2 = F.relu(self.fc2(x2))
+        x2 = F.dropout(x2, self.dropout)
+        x2 = self.fc3(x2)
+        x2 = F.softmax(x2, dim=-1)
+        return x, x2
 class TSception(nn.Module):
     def __init__(self, num_classes, input_size, sampling_rate, num_T, num_S, hiden, dropout_rate):
         # input_size: EEG channel x datapoint
