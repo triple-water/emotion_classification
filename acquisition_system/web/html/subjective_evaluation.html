@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='../css/main.css') }}">
+    <script src="{{ url_for('static',filename='../lib/jquery.min.js') }}"></script>
     <!--    <link rel="stylesheet" type="text/css" href="../css/main.css">-->
     <title>subjective evaluation</title>
 </head>
@@ -21,9 +22,13 @@
                 <label>neural<input name="emotion" class="yuan" type="radio" value="neural"/>&nbsp&nbsp</label>
                 <label>negative<input name="emotion" class="yuan" type="radio" value="negative"/>&nbsp&nbsp</label>
             </p>
-            <p><input class="submit" type="submit" value="submit" /></p>
+            <p><input id="emotion_sub" class="submit" type="submit" value="submit" /></p>
         </form>
     </div>
 </div>
 </body>
+<script>
+    $("#emotion_sub").click(function () {
+        $(this).attr({"disabled":"disabled"});
+</script>
 </html>
