@@ -19,7 +19,7 @@ base_path = Path("../web/source/video")
 save_path = "../acq_data"
 save_path = os.path.join(save_path, time.strftime("%Y%m%d%H%M%S", time.localtime()))
 # TODO: check usb port
-ser = serial.Serial("COM4", 9600, timeout=5)  # 开启com3口，波特率115200，超时5
+# ser = serial.Serial("COM4", 9600, timeout=5)  # 开启com3口，波特率115200，超时5
 # global parameters
 app = Flask(__name__, template_folder='../web/html', static_folder="../web", static_url_path="")
 count = 0
@@ -110,6 +110,21 @@ def subject_info():
 def rest_info():
     try:
         m.start_record(record_name, record_description)
+        t_product = threading.Thread(target=product)
+        t_consume = threading.Thread(target=consume)
+        # t_skin_prodeuct = threading.Thread(target=skin_resistance_product)
+        marker_list.append("start: {}".format(str(time.time())))
+        # t_skin_consume = threading.Thread(target=skin_resistance_consume)
+        t_product.daemon = True
+        t_consume.daemon = True
+        # t_skin_prodeuct.daemon = True
+        # t_skin_consume.daemon = True
+        t_product.start()
+        t_consume.start()
+        # t_skin_prodeuct.start()
+        # t_skin_consume.start()
+        skin_queue.join()
+        eeg_queue.join()
         return render_template('rest_info.html')
     except exceptions.TemplateNotFound as et:
         logger.error(et.message)
@@ -127,21 +142,6 @@ def rest():
         # if request.method == 'GET' or 'POST':
         m.inject_name_marker('start')
         video_name = video_list[count]
-        t_product = threading.Thread(target=product)
-        t_consume = threading.Thread(target=consume)
-        t_skin_prodeuct = threading.Thread(target=skin_resistance_product)
-        marker_list.append("start: {}".format(str(time.time())))
-        t_skin_consume = threading.Thread(target=skin_resistance_consume)
-        t_product.daemon = True
-        t_consume.daemon = True
-        t_skin_prodeuct.daemon = True
-        t_skin_consume.daemon = True
-        t_product.start()
-        t_consume.start()
-        t_skin_prodeuct.start()
-        t_skin_consume.start()
-        skin_queue.join()
-        eeg_queue.join()
         logger.info("video name: {}".format(v_name))
         return render_template('rest.html', video_name=video_name)
     except exceptions.TemplateNotFound:
@@ -316,9 +316,9 @@ def consume():
         else:
             raw_np = np.array(raw_data_list)[:, :, 3:-1]
             raw_np = raw_np.swapaxes(2, 1)
-            print(raw_np.shape)
+            # print(raw_np.shape)
             emotion_list = get_emotion.get_emotion_value(raw_np)
-            print(emotion_list)
+            # print(emotion_list)
             emotion_class = str(np.argmax(np.bincount(emotion_list)))
             print(emotion_class)
             logger.info("emotion class is: {}".format(emotion_class))
@@ -326,45 +326,51 @@ def consume():
             raw_data_list[:] = []
 
 
-@logs.log_record(logger)
-def skin_resistance_product():
-    global skin_retry_count
-    ser.flushInput()
-    try:
-        while True:
-            data_count = ser.inWaiting()
-            if data_count != 0:
-                recv = ser.read(ser.in_waiting).decode("gbk")
-                record_skin_data = str(time.time()) + "\n" + recv
-                skin_queue.put(record_skin_data)
-            time.sleep(0.1)
-    except UnicodeDecodeError as ude:
-        if skin_retry_count >= 0:
-            skin_retry_count -= 1
-            skin_resistance_product()
-        logger.error("skin_resistance error: {}".format(ude))
-
-
-@logs.log_record(logger)
-def skin_resistance_consume():
-    write_count = 0
-    result_skin = []
-    try:
-        while True:
-            if write_count < 600:
-                skin_data = skin_queue.get()
-                result_skin.append(skin_data)
-                write_count += 1
-            else:
-                write_count = 0
-                print(save_path + os.sep + skin_data_file_name)
-                file_tools.write_content_add(save_path, skin_data_file_name, "\n".join(result_skin))
-
-    except Exception as e:
-        print(e)
-        logger.error("skin_resistance_consume error: {}".format(e))
+# @logs.log_record(logger)
+# def skin_resistance_product():
+#     global skin_retry_count
+#     ser.flushInput()
+#     try:
+#         while True:
+#             data_count = ser.inWaiting()
+#             if data_count != 0:
+#                 recv = ser.read(ser.in_waiting).decode("gbk")
+#                 # record_skin_data = str(time.time()) + "\n" + recv
+#                 record_skin_data = recv
+#                 skin_queue.put(record_skin_data)
+#                 print(record_skin_data)
+#                 print(time.time())
+#             time.sleep(0.1)
+#     except UnicodeDecodeError as ude:
+#         if skin_retry_count >= 0:
+#             skin_retry_count -= 1
+#             skin_resistance_product()
+#         logger.error("skin_resistance error: {}".format(ude))
+#
+#
+# @logs.log_record(logger)
+# def skin_resistance_consume():
+#     write_count = 0
+#     result_skin = []
+#     try:
+#         while True:
+#             if write_count < 600:
+#             # if write_count < 256:
+#                 skin_data = skin_queue.get()
+#                 result_skin.append(skin_data)
+#                 write_count += 1
+#             else:
+#                 write_count = 0
+#                 print(save_path + os.sep + skin_data_file_name)
+#                 file_tools.write_content_add(save_path, skin_data_file_name, "\n".join(result_skin))
+#
+#     except Exception as e:
+#         print(e)
+#         logger.error("skin_resistance_consume error: {}".format(e))
 
 
 if __name__ == '__main__':
-    # app.run(debug=True)
+    app.run(debug=True)
     app.run(host="0.0.0.0")
+
+
